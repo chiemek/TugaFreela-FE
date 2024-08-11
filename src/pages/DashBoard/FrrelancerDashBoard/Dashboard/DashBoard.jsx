@@ -10,28 +10,9 @@ import Button from "../../../../components/Button/Button";
 import Premium from "../../../../assets/icons/crown.png";
 import FileImage from "../../../../assets/icons/docYellow.png";
 import Edit from "../../../../assets/icons/threeDots.png";
-
+import Footer from "../../../../components/Footer/Footer";
+import ProgressBar from "../../../../components/ProgressBar/ProgressBar";
 import "./Dashboard.css";
-
-export const ProgressBar = ({ currentProgress, maxProgress }) => {
-  const progressPercentage = (currentProgress / maxProgress) * 100;
-
-  return (
-    <>
-      <div className="progress-container">
-        <div className="progress-bar">
-          <div
-            className="progress"
-            style={{ width: `${progressPercentage}%` }}
-          ></div>
-        </div>
-        <div className="progress-text">
-          {currentProgress}/{maxProgress}
-        </div>
-      </div>
-    </>
-  );
-};
 
 const DashBoard = () => {
   const subHeader = [
@@ -76,7 +57,7 @@ const DashBoard = () => {
       Propostas: 212,
       Cliente: "Diego Lucsen",
       Início: "17.02.2020",
-      Status: " Aguardando Pagamento",
+      Status: "Aguardando Pagamento",
     },
     {
       image: FileImage,
@@ -87,6 +68,41 @@ const DashBoard = () => {
       Status: "Fechado",
     },
   ];
+
+  const JobProposal2 = [
+    {
+      image: FileImage,
+      appName: "Design de aplicativo de eventos e entretenimento",
+      Propostas: 212,
+      Cliente: "Diego Lucsen",
+      Início: "17.02.2020",
+      Status: "Em Andamento",
+    },
+    {
+      image: FileImage,
+      appName: "Design de aplicativo de eventos e entretenimento",
+      Propostas: 212,
+      Cliente: "Diego Lucsen",
+      Início: "17.02.2020",
+      Status: "Em Disputa",
+    },
+  ];
+
+  const getColor = (status) => {
+    switch (status) {
+      case "Aguardando Pagamento":
+        return "rgb(218, 218, 111)";
+      case "Fechado":
+        return "red";
+      case "Em Andamento":
+        return "green";
+      case "Em Disputa":
+        return "orange";
+      default:
+        return "gray"; // Default color
+    }
+  };
+
   return (
     <>
       <DHeader />
@@ -153,7 +169,11 @@ const DashBoard = () => {
                 </div>
               </div>
               <div className="details2">
-                <ProgressBar currentProgress={50} maxProgress={200} />
+                <ProgressBar
+                  currentProgress={50}
+                  maxProgress={200}
+                  color="#f6f3f3"
+                />
                 <p style={{ fontSize: "0.8rem", marginTop: "0.8rem" }}>
                   Os níveis de experiência são atingidos conforme o número de
                   projetos concluídos são alcançados. Aumente seu nível e ganhe
@@ -193,21 +213,72 @@ const DashBoard = () => {
               <h2>Jobs com propostas:</h2>
               {JobProposals.map((job, index) => (
                 <div className="job-card" key={index}>
-                  <img src={job.image} alt={job.image.name} className="doc" />
-                  <div className="job-type">
-                    <div className="topic">
-                      <p>{job.appName}</p>
-                    </div>
-                    <div className="center">
-                      <p>Propostas({job.Propostas})</p>
-                      <p>Cliente: {job.Cliente}</p>
-                      <p>Início: {job.Início}</p>
-                    </div>
+                  <div style={{ display: "flex" }}>
+                    <img src={job.image} alt={job.image.name} className="doc" />
+                    <div className="job-type">
+                      <div className="topic">
+                        <p>{job.appName}</p>
+                      </div>
 
-                    <div className="edit">
-                      <p>Status: {job.Status}</p>
+                      <div className="center">
+                        <p>Propostas({job.Propostas})</p>
+                        <p>
+                          Cliente:
+                          <span style={{ color: "#D6B8FF" }}>
+                            {job.Cliente}
+                          </span>
+                        </p>
+                        <p>Início: {job.Início}</p>
+                      </div>
+
+                      <div className="edit">
+                        <p>
+                          Status:
+                          <span style={{ color: getColor(job.Status) }}>
+                            {job.Status}
+                          </span>
+                        </p>
+                      </div>
                     </div>
                   </div>
+
+                  <img src={Edit} alt={job.image.name} className="threeDots" />
+                </div>
+              ))}
+            </div>
+            <div className="job-proposals">
+              <h2>Minhas propostas ativas:</h2>
+              {JobProposal2.map((job, index) => (
+                <div className="job-card" key={index}>
+                  <div style={{ display: "flex" }}>
+                    <img src={job.image} alt={job.image.name} className="doc" />
+                    <div className="job-type">
+                      <div className="topic">
+                        <p>{job.appName}</p>
+                      </div>
+
+                      <div className="center">
+                        <p>Propostas({job.Propostas})</p>
+                        <p>
+                          Cliente:
+                          <span style={{ color: "#D6B8FF" }}>
+                            {job.Cliente}
+                          </span>
+                        </p>
+                        <p>Início: {job.Início}</p>
+                      </div>
+
+                      <div className="edit">
+                        <p>
+                          Status:
+                          <span style={{ color: getColor(job.Status) }}>
+                            {job.Status}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
                   <img src={Edit} alt={job.image.name} className="threeDots" />
                 </div>
               ))}
@@ -215,6 +286,7 @@ const DashBoard = () => {
           </aside>
         </section>
       </div>
+      <Footer />
     </>
   );
 };

@@ -10,7 +10,7 @@ import Privacy from "./pages/Privacy/Privacy";
 import Basic from "./pages/SignUp/Basic/Basic";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Profile from "./pages/DashBoard/FrrelancerDashBoard/Profile/Profile";
 import Terms from "./pages/Terms/Terms";
 import ContactUs from "./pages/ContactUs/ContactUs";
 import Freelance from "./pages/Freelance/Freelance";
@@ -18,6 +18,7 @@ import FAQ from "./pages/FAQ/FAQ";
 import ThankYou from "./pages/Password/ThankYou/ThankYou";
 import NotFound from "./components/NotFound/NotFound";
 import FreelancerDashboard from "./pages/DashBoard/FrrelancerDashBoard/Dashboard/DashBoard";
+import EditProfile from "./pages/DashBoard/FrrelancerDashBoard/EditProfile/EditProfile";
 
 function App() {
   return (
@@ -39,6 +40,8 @@ function App() {
           <Route path="/ThankYou" element={<ThankYou />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/Dashboard" element={<FreelancerDashboard />} />
+          <Route path="/Profile" element={<Profile />} />
+          <Route path="/EditProfile" element={<EditProfile />} />
         </Routes>
 
         <Privacy />
