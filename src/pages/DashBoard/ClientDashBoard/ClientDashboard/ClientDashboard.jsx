@@ -110,9 +110,9 @@ const ClientDashboard = () => {
   return (
     <>
       <DHeader />
-      <PurchasePopUp />
+      {/* <PurchasePopUp /> */}
 
-      {/* <div className="freelancerDashboard">
+      <div className="freelancerDashboard">
         <div className="subHeader">
           {subHeader.map((item, index) => (
             <div className="cards" key={index}>
@@ -282,7 +282,7 @@ const ClientDashboard = () => {
           </aside>
         </section>
       </div>
-      <Footer /> */}
+      <Footer />
     </>
   );
 };

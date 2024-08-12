@@ -22,6 +22,10 @@ import EditProfile from "./pages/DashBoard/FrrelancerDashBoard/EditProfile/EditP
 import ClientDashboard from "./pages/DashBoard/ClientDashBoard/ClientDashboard/ClientDashboard";
 import ClientProfile from "./pages/DashBoard/ClientDashBoard/ClientDashboard/ClientProfile/ClientProfile";
 import ClientCompleted from "./pages/DashBoard/ClientDashBoard/ClientCompleted/ClientCompleted";
+import ClientProfile2 from "./pages/DashBoard/ClientDashBoard/ClientProfile2/ClientProfile2";
+import EditClientProfile from "./pages/DashBoard/ClientDashBoard/ClientDashboard/ClientProfile/EditClientProfile/EditClientProfile";
+import DeleteProfile from "./components/DeleteProfile/DeleteProfile";
+import EditProfilePopUp from "./components/EditProfilePopUp/EditProfilePopUp";
 
 function App() {
   return (
@@ -48,6 +52,11 @@ function App() {
           <Route path="/ClientCompleted" element={<ClientCompleted />} />
           <Route path="/ClientDashboard" element={<ClientDashboard />} />
           <Route path="/EditProfile" element={<EditProfile />} />
+          <Route path="/ClientProfile2" element={<ClientProfile2 />} />
+          <Route path="/DeleteProfile" element={<DeleteProfile />} />
+          <Route path="/EditProfilePopUp" element={<EditProfilePopUp />} />
+
+          <Route path="/EditClientProfile" element={<EditClientProfile />} />
         </Routes>
 
         <Privacy />

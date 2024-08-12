@@ -1,0 +1,21 @@
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  .pop-up {
+    padding: 4rem 7rem;
+    border-radius: 10px;
+    width: 35rem;
+    position: relative;
+    background-color: #363636;
+    color: #fff;
+    text-align: center;
+
+    p:first-child {
+      font-size: 1rem;
+      margin-bottom: 3rem;
+    }
+  }
+}
