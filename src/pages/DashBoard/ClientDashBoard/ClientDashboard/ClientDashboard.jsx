@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 import DHeader from "../../DashboardHeader/DashboardHeader";
 import MoneyBag from "../../../../assets/icons/moneyBag.png";
-import Justice from "../../../../assets/icons/auction.png";
-import Check from "../../../../assets/icons/check.png";
-import View from "../../../../assets/icons/views.png";
 import ProfilPic from "../../../../assets/images/img1427.jpg";
 import Star from "../../../../assets/icons/star.png";
 import Button from "../../../../components/Button/Button";
-import Premium from "../../../../assets/icons/crown.png";
 import FileImage from "../../../../assets/icons/docYellow.png";
 import Edit from "../../../../assets/icons/threeDots.png";
 import Footer from "../../../../components/Footer/Footer";
 import ProgressBar from "../../../../components/ProgressBar/ProgressBar";
+import Proposals from "../../../../assets/icons/proposal.png";
+import Circle from "../../../../assets/icons/circle.png";
 import Mes from "../../../../assets/icons/emailss.png";
 import Add from "../../../../assets/icons/addss.png";
 import Checky from "../../../../assets/icons/checkss.png";
@@ -19,9 +17,15 @@ import Cancel from "../../../../assets/icons/cancelss.png";
 import People from "../../../../assets/icons/peopless.png";
 import Edity from "../../../../assets/icons/editss.png";
 import Viewy from "../../../../assets/icons/viewss.png";
-import "./Dashboard.css";
+import "./ClientDashboard.css";
+import Pyramid from "../../../../assets/icons/pyramid.png";
+import Step1 from "../../../../assets/icons/step1.png";
+import Step2 from "../../../../assets/icons/step2.png";
+import Step3 from "../../../../assets/icons/step3.png";
+import Ribbon from "../../../../assets/icons/ribbon.png";
+import PurchasePopUp from "../../../../components/PurchasePopUp/PurchasePopUp";
 
-const DashBoard = () => {
+const ClientDashboard = () => {
   const [activeModalId, setActiveModalId] = useState(null);
 
   const handleToggle = (id) => {
@@ -34,32 +38,20 @@ const DashBoard = () => {
       description: "Seus ganhos",
     },
     {
-      image: Justice,
-      amount: 458,
-      description: "Propostas enviadas",
+      image: Proposals,
+      amount: 566,
+      description: "Projetos publicados",
     },
     {
-      image: Check,
+      image: Circle,
       amount: 7,
-      description: "Propostas aceitas",
+      description: "Projetos em andamento",
     },
     {
-      image: View,
-      amount: 1854,
-      description: "Views no perfil",
+      image: Checky,
+      amount: 2,
+      description: "Projetos concluídos",
     },
-  ];
-
-  const skills = [
-    "DESIGN 3D",
-    "PUBLICIDADE ATL",
-    "SUBMISSAO DE ART.",
-    "ANIMACAO",
-    "BING/YAHOO PPC",
-    "ANÚNCIO DE BANNER",
-    "EXIBIÇÃO DE PUB.",
-    "GOOGLE ADWORDS",
-    "GOOGLE ADWORDS",
   ];
 
   const JobProposals = [
@@ -67,7 +59,7 @@ const DashBoard = () => {
       image: FileImage,
       appName: "Design de aplicativo de eventos e entretenimento",
       Propostas: 212,
-      Cliente: "Diego Lucsen",
+      freelancer: "Diego Lucsen",
       Início: "17.02.2020",
       Status: "Aguardando Pagamento",
     },
@@ -75,7 +67,7 @@ const DashBoard = () => {
       image: FileImage,
       appName: "Design de aplicativo de eventos e entretenimento",
       Propostas: 212,
-      Cliente: "Diego Lucsen",
+      freelancer: "Diego Lucsen",
       Início: "17.02.2020",
       Status: "Fechado",
     },
@@ -86,7 +78,7 @@ const DashBoard = () => {
       image: FileImage,
       appName: "Design de aplicativo de eventos e entretenimento",
       Propostas: 212,
-      Cliente: "Diego Lucsen",
+      freelancer: "Diego Lucsen",
       Início: "17.02.2020",
       Status: "Em Andamento",
     },
@@ -94,7 +86,7 @@ const DashBoard = () => {
       image: FileImage,
       appName: "Design de aplicativo de eventos e entretenimento",
       Propostas: 212,
-      Cliente: "Diego Lucsen",
+      freelancer: "Diego Lucsen",
       Início: "17.02.2020",
       Status: "Em Disputa",
     },
@@ -118,7 +110,9 @@ const DashBoard = () => {
   return (
     <>
       <DHeader />
-      <div className="freelancerDashboard">
+      <PurchasePopUp />
+
+      {/* <div className="freelancerDashboard">
         <div className="subHeader">
           {subHeader.map((item, index) => (
             <div className="cards" key={index}>
@@ -132,7 +126,7 @@ const DashBoard = () => {
             </div>
           ))}
         </div>
-        <section>
+        <section style={{ display: "grid", gridTemplateColumns: "25vw 1fr" }}>
           <aside className="left-aside">
             <div className="first-box">
               <div className="about">
@@ -144,15 +138,18 @@ const DashBoard = () => {
                 <div className="text">
                   <div className="rating">
                     <h5>Membro gratuito</h5>
-                    <h3>Julian Dalsin</h3>
+                    <h3>Paulo Santos</h3>
                     {Array(5)
                       .fill()
                       .map((_, index) => (
                         <img key={index} src={Star} alt="" />
                       ))}
                     <p>10</p>
+                    <img src={Pyramid} alt="" style={{ display: "block" }} />
                   </div>
-                  <Button bgColor={"#D6B8FF"}>ENCONTRAR JOB</Button>
+                  <Button bgColor={"#D6B8FF"} font=".8rem">
+                    ENCONTRAR JOB
+                  </Button>
                 </div>
               </div>
               <div className="details">
@@ -177,7 +174,9 @@ const DashBoard = () => {
                     <h5>Nível</h5>
                     <h3>Iniciante</h3>
                   </div>
-                  <Button bgColor={"#FFC107"}>ENCONTRAR JOB</Button>
+                  <Button bgColor={"#FFC107"} font=".8rem">
+                    ENCONTRAR JOB
+                  </Button>
                 </div>
               </div>
               <div className="details2">
@@ -192,32 +191,6 @@ const DashBoard = () => {
                   mais prestígio na plataforma
                 </p>
               </div>
-            </div>
-            <div className="skills">
-              <h2>Minhas Habilidades</h2>
-              <div className="skill-list">
-                {skills.map((skill, index) => (
-                  <p key={index}>{skill}</p>
-                ))}
-              </div>
-            </div>
-            <div className="premium">
-              <div className="head-p">
-                <img src={Premium} alt="premium logo" />
-                <h3>
-                  Aceda ao plano
-                  <span style={{ color: "red", fontSize: "1.5rem" }}>
-                    PREMIUM
-                  </span>
-                </h3>
-              </div>
-              <p>
-                Aceda ao plano premium para obter o máximo de performance no seu
-                trabalho. Com o plano premium qualquer projeto postado pelo
-                cliente fica aberto para o envio da sua proposta.*Plano mensal
-                no valor de 15€
-              </p>
-              <Button>Aceder a Premium</Button>
             </div>
           </aside>
           <aside className="right-aside">
@@ -235,7 +208,7 @@ const DashBoard = () => {
                       <div className="center">
                         <p>Propostas({job.Propostas})</p>
                         <p>
-                          Cliente:
+                          Freelancer:
                           <span style={{ color: "#D6B8FF" }}>
                             {job.Cliente}
                           </span>
@@ -277,7 +250,7 @@ const DashBoard = () => {
                       <div className="center">
                         <p>Propostas({job.Propostas})</p>
                         <p>
-                          Cliente:
+                          Freelancer:
                           <span style={{ color: "#D6B8FF" }}>
                             {job.Cliente}
                           </span>
@@ -309,7 +282,7 @@ const DashBoard = () => {
           </aside>
         </section>
       </div>
-      <Footer />
+      <Footer /> */}
     </>
   );
 };
@@ -353,4 +326,4 @@ export const UpdateJob = () => {
   );
 };
 
-export default DashBoard;
+export default ClientDashboard;

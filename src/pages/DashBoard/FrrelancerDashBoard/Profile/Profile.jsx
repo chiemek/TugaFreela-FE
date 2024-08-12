@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../../DashboardHeader/DashboardHeader";
-import Footer from "../../../../components/Footer/Footer2/Footer2";
+
 import ProfilPic from "../../../../assets/images/img1427.jpg";
 import Star from "../../../../assets/icons/star.png";
 import ProfileVerification from "../../../../assets/icons/profileIcon.png";
@@ -12,6 +12,7 @@ import Button from "../../../../components/Button/Button";
 
 import "./Profile.css";
 import ProgressBar from "../../../../components/ProgressBar/ProgressBar";
+import Footer2 from "../../../../components/Footer/Footer2/Footer2";
 
 const Profile = () => {
   const profile = [
@@ -302,7 +303,7 @@ const Profile = () => {
         <Button bgColor="red">Sair da conta</Button>
         <Button bgColor="#333">Excluir conta</Button>
       </div>
-      <Footer />
+      <Footer2 />
     </div>
   );
 };

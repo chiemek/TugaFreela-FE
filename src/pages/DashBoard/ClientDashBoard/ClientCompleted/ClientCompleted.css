@@ -1,0 +1,17 @@
+section:last-child {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  .timer {
+    justify-self: flex-end;
+    background-color: #333;
+    padding: 1rem;
+    width: 8rem;
+    border-radius: 5px;
+    color: #dfbcf1;
+    position: absolute;
+    right: 1rem;
+    bottom: 0;
+  }
+}

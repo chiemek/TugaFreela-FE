@@ -19,6 +19,9 @@ import ThankYou from "./pages/Password/ThankYou/ThankYou";
 import NotFound from "./components/NotFound/NotFound";
 import FreelancerDashboard from "./pages/DashBoard/FrrelancerDashBoard/Dashboard/DashBoard";
 import EditProfile from "./pages/DashBoard/FrrelancerDashBoard/EditProfile/EditProfile";
+import ClientDashboard from "./pages/DashBoard/ClientDashBoard/ClientDashboard/ClientDashboard";
+import ClientProfile from "./pages/DashBoard/ClientDashBoard/ClientDashboard/ClientProfile/ClientProfile";
+import ClientCompleted from "./pages/DashBoard/ClientDashBoard/ClientCompleted/ClientCompleted";
 
 function App() {
   return (
@@ -41,6 +44,9 @@ function App() {
           <Route path="*" element={<NotFound />} />
           <Route path="/Dashboard" element={<FreelancerDashboard />} />
           <Route path="/Profile" element={<Profile />} />
+          <Route path="/ClientProfile" element={<ClientProfile />} />
+          <Route path="/ClientCompleted" element={<ClientCompleted />} />
+          <Route path="/ClientDashboard" element={<ClientDashboard />} />
           <Route path="/EditProfile" element={<EditProfile />} />
         </Routes>
 

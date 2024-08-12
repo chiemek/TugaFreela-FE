@@ -7,6 +7,7 @@
   padding-block: 1rem;
   /* padding-inline: 3rem; */
   width: 100%;
+  position: relative;
 
   .img {
     width: 15rem;
@@ -78,6 +79,42 @@
       width: 4rem;
       height: 4rem;
       border-radius: 50%;
+    }
+  }
+
+  .messagess,
+  .notifications {
+    position: absolute;
+    right: 1rem;
+    top: 8rem;
+    box-shadow: 1px -1px 5px 0px rgba(0, 0, 0, 0.75);
+    border-radius: 10px;
+
+    .messages,
+    .notification {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #6c7a89;
+      color: #fff;
+      padding: 1rem;
+
+      p {
+        color: #d6b8ff;
+      }
+    }
+    .message-body {
+      display: flex;
+      padding: 1rem;
+      gap: 1rem;
+      border-bottom: 1px solid #b1afaf;
+      background-color: #fff;
+
+      img {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+      }
     }
   }
 }

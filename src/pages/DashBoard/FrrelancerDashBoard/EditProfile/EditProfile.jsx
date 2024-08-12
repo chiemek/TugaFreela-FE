@@ -1,9 +1,10 @@
 import React from "react";
 import Header from "../../DashboardHeader/DashboardHeader";
-import Footer from "../../../../components/Footer/Footer2/Footer2";
+
 import "./EditProfile.css";
 import ProfilPic from "../../../../assets/images/img1427.jpg";
 import Button from "../../../../components/Button/Button";
+import Footer2 from "../../../../components/Footer/Footer2/Footer2";
 
 const EditProfile = () => {
   return (
@@ -37,7 +38,7 @@ const EditProfile = () => {
         </form>
       </div>
 
-      <Footer />
+      <Footer2 />
     </>
   );
 };
