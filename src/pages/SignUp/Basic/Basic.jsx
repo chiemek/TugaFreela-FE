@@ -148,9 +148,9 @@ const CombinedForm = () => {
     let endpoint = "";
 
     if (showForm === "client") {
-      endpoint = "{import.meta.env.VITE_API_URL}/signup-client";
+      endpoint = `${import.meta.env.VITE_API_URL}/signup-client`;
     } else if (showForm === "freelancer") {
-      endpoint = "{import.meta.env.VITE_API_UR}L/signup-freelancer";
+      endpoint = `${import.meta.env.VITE_API_URL}/signup-freelancer`;
     } else {
       toast.error("Invalid role");
       return;
@@ -174,7 +174,7 @@ const CombinedForm = () => {
   const handleSkip = async (e) => {
     e.preventDefault();
 
-    const endpoint = "{import.meta.env.VITE_API_URL}/signup-clientSkip";
+    const endpoint = `${import.meta.env.VITE_API_URL}/signup-clientSkip`;
 
     try {
       const response = await axios.post(endpoint, {
