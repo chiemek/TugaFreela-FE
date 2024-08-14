@@ -99,7 +99,7 @@ const Client = () => {
   return (
     <>
       <DHeader />
-      <main>
+      <main className="maintain">
         <section>
           <aside>
             <h2>Melhora de algumas páginas design/UX</h2>

@@ -1,4 +1,4 @@
-section:last-child {
+.sect-last {
   display: flex;
   flex-direction: column;
   position: relative;

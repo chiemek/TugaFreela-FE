@@ -99,7 +99,7 @@ const Client = () => {
   return (
     <>
       <DHeader />
-      <main>
+      <main className="maintain">
         <section>
           <aside>
             <h2>Melhora de algumas páginas design/UX</h2>
@@ -231,7 +231,7 @@ const Client = () => {
             </div>
           </aside>
         </section>
-        <section>
+        <section className="sect-last">
           <h1>Propostas</h1>
           {proposal.map((prop, index) => (
             <div className="propose" key={`proposal-${index}`}>
