@@ -33,10 +33,14 @@ const CombinedForm = () => {
     nif: "",
     citizenCard: "",
     categories: ["", ""],
+    profileImageUrl: "",
+    profileImagePublicId: "",
   });
   const [showForm, setShowForm] = useState("basic");
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [imagePreview, setImagePreview] = useState(Profile);
+  const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
   const maxWords = 500;
   const navigate = useNavigate();
@@ -141,35 +145,6 @@ const CombinedForm = () => {
     }
   };
 
-  // Submit button
-  const handleRoleFormSubmit = async (e) => {
-    e.preventDefault();
-
-    let endpoint = "";
-
-    if (showForm === "client") {
-      endpoint = `${import.meta.env.VITE_API_URL}/signup-client`;
-    } else if (showForm === "freelancer") {
-      endpoint = `${import.meta.env.VITE_API_URL}/signup-freelancer`;
-    } else {
-      toast.error("Invalid role");
-      return;
-    }
-
-    try {
-      const response = await axios.post(endpoint, formState);
-      console.log("Response:", response.data);
-      toast.success("Registration successful!");
-      navigate("/ThankYou");
-    } catch (error) {
-      console.error(
-        "Error:",
-        error.response ? error.response.data : error.message
-      );
-      toast.error("Registration failed. Please try again.");
-    }
-  };
-
   // Skip button for client
   const handleSkip = async (e) => {
     e.preventDefault();
@@ -205,15 +180,87 @@ const CombinedForm = () => {
     setTermsAccepted(e.target.checked);
   };
 
-  // Image to display instead of the default profile image
+  // handle image upload
+  // const uploadImage = async (file) => {
+  //   const formData = new FormData();
+  //   formData.append("profilePicture", file);
+
+  //   try {
+  //     const response = await axios.post(
+  //       `${import.meta.env.VITE_API_URL}/upload-profile-picture`,
+  //       formData,
+  //       {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //       }
+  //     );
+  //     return response.data; // Ensure this returns { profileImageUrl, profileImagePublicId }
+  //   } catch (error) {
+  //     console.error("Error uploading image:", error);
+  //     throw error;
+  //   }
+  // };
+
+  // Image to display instead of the default profile image and push to backend
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setSelectedFile(file);
+
+      // Display a preview of the image
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const handleRoleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
+
+    let endpoint = "";
+
+    if (showForm === "client") {
+      endpoint = `${import.meta.env.VITE_API_URL}/signup-client`;
+    } else if (showForm === "freelancer") {
+      endpoint = `${import.meta.env.VITE_API_URL}/signup-freelancer`;
+    } else {
+      toast.error("Invalid role");
+      return;
+    }
+
+    // Create a FormData object to handle file and form data
+    const formData = new FormData();
+
+    // Append form fields
+    Object.keys(formState).forEach((key) => {
+      formData.append(key, formState[key]);
+    });
+
+    // Append selected file if it exists
+    if (selectedFile) {
+      formData.append("profilePicture", selectedFile);
+    }
+
+    try {
+      const response = await axios.post(endpoint, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("Response:", response.data);
+      toast.success("Registration successful!");
+      navigate("/ThankYou");
+    } catch (error) {
+      console.error(
+        "Error:",
+        error.response ? error.response.data : error.message
+      );
+      toast.error("Registration failed. Please try again.");
     }
   };
 
@@ -405,8 +452,12 @@ const CombinedForm = () => {
               />
               <label htmlFor="p" className="file">
                 <img src={imagePreview || Profile} alt="Profile" />
-                <button type="button" onClick={handleButtonClick}>
-                  Add Photo
+                <button
+                  type="button"
+                  onClick={handleButtonClick}
+                  disabled={isUploading}
+                >
+                  {isUploading ? "Uploading..." : "Add Photo"}
                 </button>
               </label>
 
@@ -471,8 +522,12 @@ const CombinedForm = () => {
               />
               <label htmlFor="p" className="file">
                 <img src={imagePreview || Profile} alt="Profile" />
-                <button type="button" onClick={handleButtonClick}>
-                  Add Photo
+                <button
+                  type="button"
+                  onClick={handleButtonClick}
+                  disabled={isUploading}
+                >
+                  {isUploading ? "Uploading..." : "Add Photo"}
                 </button>
               </label>
               <div className="cat">
