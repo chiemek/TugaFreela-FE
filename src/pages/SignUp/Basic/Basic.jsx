@@ -148,8 +148,9 @@ const CombinedForm = () => {
   // Skip button for client
   const handleSkip = async (e) => {
     e.preventDefault();
+    const apiUrl = import.meta.env.VITE_API_URL; // Access environment variable
 
-    const endpoint = `${import.meta.env.VITE_API_URL}/signup-clientSkip`;
+    const endpoint = `${apiUrl}/signup-clientSkip`;
 
     try {
       const response = await axios.post(endpoint, {
@@ -179,28 +180,6 @@ const CombinedForm = () => {
   const handleCheckboxChange = (e) => {
     setTermsAccepted(e.target.checked);
   };
-
-  // handle image upload
-  // const uploadImage = async (file) => {
-  //   const formData = new FormData();
-  //   formData.append("profilePicture", file);
-
-  //   try {
-  //     const response = await axios.post(
-  //       `${import.meta.env.VITE_API_URL}/upload-profile-picture`,
-  //       formData,
-  //       {
-  //         headers: {
-  //           "Content-Type": "multipart/form-data",
-  //         },
-  //       }
-  //     );
-  //     return response.data; // Ensure this returns { profileImageUrl, profileImagePublicId }
-  //   } catch (error) {
-  //     console.error("Error uploading image:", error);
-  //     throw error;
-  //   }
-  // };
 
   // Image to display instead of the default profile image and push to backend
   const handleFileChange = (e) => {
@@ -254,7 +233,7 @@ const CombinedForm = () => {
       });
       console.log("Response:", response.data);
       toast.success("Registration successful!");
-      navigate("/ThankYou");
+      showForm === "client" ? navigate("/ClientDashboard") : navigate("/Login");
     } catch (error) {
       console.error(
         "Error:",

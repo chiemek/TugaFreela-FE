@@ -21,8 +21,10 @@ const Email = () => {
 
     try {
       // Send a POST request to the backend to initiate the password reset process
+      const apiUrl = import.meta.env.VITE_API_URL; // Access environment variable
+
       const response = await axios.post(
-        "http://localhost:5000/forgot-password", // Ensure the endpoint matches your backend
+        `${apiUrl}/forgot-password`, // Ensure the endpoint matches your backend
         { email }
       );
 

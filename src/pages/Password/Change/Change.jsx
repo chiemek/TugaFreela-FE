@@ -27,8 +27,10 @@ const Change = () => {
     }
 
     try {
+      const apiUrl = import.meta.env.VITE_API_URL; // Access environment variable
+
       const response = await axios.post(
-        `http://localhost:5000/reset-password/${token}`,
+        `${apiUrl}/reset-password/${token}`,
         { newPassword, confirmPassword } // Ensure both fields are sent
       );
 

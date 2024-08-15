@@ -16,7 +16,12 @@ const ContactUs = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:5000/contact", { name, email, number, message })
+      .post("https://tugafreela-047cd6eaed7b.herokuapp.com/contact", {
+        name,
+        email,
+        number,
+        message,
+      })
       .then(() => {
         console.log("Message sent");
         setEmail("");

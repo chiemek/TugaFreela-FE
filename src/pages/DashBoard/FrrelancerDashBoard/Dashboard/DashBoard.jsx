@@ -117,7 +117,7 @@ const DashBoard = () => {
 
   return (
     <>
-      <DHeader />
+      <DHeader logoLink="/Dashboard" editProfile="/EditProfile" />
       <div className="freelancerDashboard">
         <div className="subHeader">
           {subHeader.map((item, index) => (

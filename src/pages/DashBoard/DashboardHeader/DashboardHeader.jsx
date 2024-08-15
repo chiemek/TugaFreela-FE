@@ -8,7 +8,13 @@ import { Link } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 import { useState } from "react";
 
-const DashboardHeader = () => {
+const DashboardHeader = ({
+  logoLink,
+  dashboard,
+  findJob,
+  finance,
+  editProfile,
+}) => {
   const [toggleNotification, setToggleNotification] = useState(false);
   const [toggleMessage, setToggleMessage] = useState(false);
 
@@ -22,20 +28,20 @@ const DashboardHeader = () => {
 
   return (
     <div className="DashboardHeader">
-      <Link to="/FreelancerDashboard">
+      <Link to={logoLink}>
         <img src={Logo} alt="logo" className="img" />
       </Link>
 
       <nav>
         <ul>
           <li>
-            <HashLink to="/FreelancerDashboard">Meu Dashboard</HashLink>
+            <HashLink to={dashboard}>Meu Dashboard</HashLink>
           </li>
           <li>
-            <Link to="/Jobs">Encontre Jobs </Link>
+            <Link to={findJob}>Encontre Jobs </Link>
           </li>
           <li>
-            <Link to="/Statement">Meus Financeiro</Link>
+            <Link to={finance}>Meus Financeiro</Link>
           </li>
           <li>
             <Link to="/FAQ">Ajuda</Link>
@@ -58,13 +64,13 @@ const DashboardHeader = () => {
           <Link onClick={handleMessage}>
             <img src={MessageIcon} alt="message icon" className="img" />
           </Link>
-          <Link>
+          <HashLink to={editProfile}>
             <img
               src={ProfilPic}
               alt="profile picture"
               className="Profile-Pic"
             />
-          </Link>
+          </HashLink>
         </div>
         {toggleMessage && <Messages />}
         {toggleNotification && <Notification />}
