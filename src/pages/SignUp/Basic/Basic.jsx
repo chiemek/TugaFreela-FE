@@ -310,18 +310,30 @@ const CombinedForm = () => {
                   onChange={handleInputChange}
                 />
               </div>
-              <label htmlFor="" className="dob-c" style={{ fontSize: ".5rem" }}>
-                Date of Birth
-              </label>
-              <input
-                type="date"
-                name="dateOfBirth"
-                id="dateOfBirth"
-                placeholder="Data de nascimento"
-                value={formState.dateOfBirth}
-                onChange={handleInputChange}
-                style={{ width: "100%" }}
-              />
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "100%",
+                }}
+              >
+                <label
+                  htmlFor=""
+                  className="dob-c"
+                  style={{ fontSize: ".8rem" }}
+                >
+                  Date of Birth
+                </label>
+                <input
+                  type="date"
+                  name="dateOfBirth"
+                  id="dateOfBirth"
+                  placeholder="Data de nascimento"
+                  value={formState.dateOfBirth}
+                  onChange={handleInputChange}
+                  style={{ width: "100%" }}
+                />
+              </div>
               <input
                 type="text"
                 name="address"

@@ -241,8 +241,10 @@
     padding-inline: 0.5rem;
 
     .radio {
-      padding-inline: 2rem;
-      width: auto;
+      padding-inline: 1rem;
+      width: 95%;
+      margin: auto;
+      border: 1px solid black;
 
       .ray {
         display: flex;
