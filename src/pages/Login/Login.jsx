@@ -26,12 +26,12 @@ const Login = () => {
         email,
         password,
       });
-      const { token, userData } = response.data;
+      const { token, userData } = res.data;
 
       // Save JWT token to localStorage
       localStorage.setItem("token", token);
 
-      // Use userData to populate the dashboard
+      // Use userData to set user state, navigate to dashboard, etc.
       console.log("User data:", userData);
 
       // Display success message
