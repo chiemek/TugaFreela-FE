@@ -15,13 +15,10 @@ const ContactUs = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const apiUrl = import.meta.env.VITE_API_URL; // Access environment variable
+
     axios
-      .post("https://tugafreela-047cd6eaed7b.herokuapp.com/contact", {
-        name,
-        email,
-        number,
-        message,
-      })
+      .post(`${apiUrl}/ContactUs`, { name, email, number, message })
       .then(() => {
         console.log("Message sent");
         setEmail("");
