@@ -315,6 +315,7 @@ const CombinedForm = () => {
                   display: "flex",
                   flexDirection: "column",
                   width: "100%",
+                  boxSizing: "border-box",
                 }}
                 className="ddoobb"
               >
@@ -326,12 +327,17 @@ const CombinedForm = () => {
                   Date of Birth
                 </label>
                 <input
-                  type="date"
+                  type="text"
                   name="dateOfBirth"
                   id="dateOfBirth"
                   placeholder="Data de nascimento"
                   value={formState.dateOfBirth}
                   onChange={handleInputChange}
+                  onFocus={(e) => (e.target.type = "date")}
+                  onBlur={(e) => {
+                    if (!e.target.value) e.target.type = "text";
+                  }}
+                  style={{ width: "100%" }}
                 />
               </div>
               <input
