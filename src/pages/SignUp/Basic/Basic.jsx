@@ -316,6 +316,7 @@ const CombinedForm = () => {
                   flexDirection: "column",
                   width: "100%",
                 }}
+                className="ddoobb"
               >
                 <label
                   htmlFor=""
@@ -331,7 +332,6 @@ const CombinedForm = () => {
                   placeholder="Data de nascimento"
                   value={formState.dateOfBirth}
                   onChange={handleInputChange}
-                  style={{ width: "100%" }}
                 />
               </div>
               <input

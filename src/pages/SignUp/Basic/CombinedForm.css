@@ -244,12 +244,11 @@
       padding-inline: 1rem;
       width: 95%;
       margin: auto;
-      border: 1px solid black;
 
       .ray {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 2px;
       }
     }
 
@@ -258,6 +257,14 @@
         display: inline-block;
         width: 0.7rem;
       }
+    }
+  }
+
+  .ddoobb {
+    border: 1px solid black;
+
+    input {
+      width: 100%;
     }
   }
 
