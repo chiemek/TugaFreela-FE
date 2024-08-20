@@ -4,8 +4,8 @@ import "./DeleteProfile.css";
 
 const DeleteProfile = () => {
   return (
-    <div className="modal">
-      <div className="pop-up">
+    <div className="modal-delete">
+      <div className="pop-up-delete">
         <div className="body">
           <p>Certeza que deseja deletar a sua conta definitivamente?</p>
           <p style={{ fontSize: ".8rem" }}>

@@ -1,10 +1,11 @@
 import React from "react";
 import Button from "../Button/Button";
+import "./EditProfilePopUp.css";
 
 const EditProfilePopUp = () => {
   return (
-    <div className="modal">
-      <div className="pop-up">
+    <div className="modal-edit">
+      <div className="pop-up-edit">
         <div className="body">
           <p>
             Seu perfil só pode ser editado uma vez ao ano. Tenha atenção na

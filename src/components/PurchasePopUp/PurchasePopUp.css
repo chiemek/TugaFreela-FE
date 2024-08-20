@@ -3,6 +3,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-color: rgba(0, 0, 0, 0.44);
 
   .pop-up {
     padding: 2rem;

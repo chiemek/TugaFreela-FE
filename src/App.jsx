@@ -26,43 +26,43 @@ import ClientProfile2 from "./pages/DashBoard/ClientDashBoard/ClientProfile2/Cli
 import EditClientProfile from "./pages/DashBoard/ClientDashBoard/ClientDashboard/ClientProfile/EditClientProfile/EditClientProfile";
 import DeleteProfile from "./components/DeleteProfile/DeleteProfile";
 import EditProfilePopUp from "./components/EditProfilePopUp/EditProfilePopUp";
+import { UserProvider } from "./pages/Contexts/UserContext";
+import PurchasePopUp from "./components/PurchasePopUp/PurchasePopUp";
 
 function App() {
   return (
-    <>
+    <UserProvider>
       <ModalProvider>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/Change" element={<Change />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/change" element={<Change />} />
           <Route path="/forgot-password" element={<Email />} />
           <Route path="/reset-password/:token" element={<Change />} />
-          <Route path="/Privacy" element={<Privacy />} />
-          <Route path="/Basic" element={<Basic />} />
-          <Route path="/Terms" element={<Terms />} />
-          <Route path="/Confirm" element={<Confirm />} />
-          <Route path="/ContactUs" element={<ContactUs />} />
-          <Route path="/Freelance" element={<Freelance />} />
-          <Route path="/FAQ" element={<FAQ />} />
-          <Route path="/ThankYou" element={<ThankYou />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/basic" element={<Basic />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/confirm" element={<Confirm />} />
+          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/freelance" element={<Freelance />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/thank-you" element={<ThankYou />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/Dashboard" element={<FreelancerDashboard />} />
-          <Route path="/Profile" element={<Profile />} />
-          <Route path="/ClientProfile" element={<ClientProfile />} />
-          <Route path="/ClientCompleted" element={<ClientCompleted />} />
-          <Route path="/ClientDashboard" element={<ClientDashboard />} />
-          <Route path="/EditProfile" element={<EditProfile />} />
-          <Route path="/ClientProfile2" element={<ClientProfile2 />} />
-          <Route path="/DeleteProfile" element={<DeleteProfile />} />
-          <Route path="/EditProfilePopUp" element={<EditProfilePopUp />} />
-
-          <Route path="/EditClientProfile" element={<EditClientProfile />} />
+          <Route path="/dashboard" element={<FreelancerDashboard />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/client-profile" element={<ClientProfile />} />
+          <Route path="/client-completed" element={<ClientCompleted />} />
+          <Route path="/client-dashboard" element={<ClientDashboard />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
+          <Route path="/client-profile2" element={<ClientProfile2 />} />
+          <Route path="/delete-profile" element={<DeleteProfile />} />
+          <Route path="/edit-profile-popup" element={<EditProfilePopUp />} />
+          <Route path="/edit-client-profile" element={<EditClientProfile />} />
+          <Route path="/PurchasePopUp" element={<PurchasePopUp />} />
         </Routes>
-
-        <Privacy />
       </ModalProvider>
       <ToastContainer />
-    </>
+    </UserProvider>
   );
 }
 

@@ -1,10 +1,11 @@
-.modal {
+.modal-delete {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-color: rgba(0, 0, 0, 0.361);
 
-  .pop-up {
+  .pop-up-delete {
     padding: 4rem 7rem;
     border-radius: 10px;
     width: 35rem;
@@ -16,6 +17,9 @@
     p:first-child {
       font-size: 1rem;
       margin-bottom: 3rem;
+    }
+    p:last-child {
+      margin-bottom: 1rem;
     }
   }
 }

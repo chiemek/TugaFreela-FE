@@ -1,0 +1,23 @@
+.modal-edit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.44);
+
+  .pop-up-edit {
+    padding: 5rem;
+    border-radius: 10px;
+    width: 40rem;
+    height: auto;
+    position: relative;
+    background-color: #363636;
+    color: #fff;
+    text-align: center;
+
+    p {
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+  }
+}

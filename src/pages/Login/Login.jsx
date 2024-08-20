@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import LoginShowCase from "../../assets/images/loginBg.jpg";
 import Header from "../../components/Header/Header";
@@ -7,21 +7,21 @@ import "./Login.css";
 import Footer from "../../components/Footer/Footer";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { UserContext } from "../Contexts/UserContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { setUser } = useContext(UserContext); // Move useContext to the top level
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const apiUrl = import.meta.env.VITE_API_URL; // Access environment variable
+      const apiUrl = import.meta.env.VITE_API_URL;
       if (!apiUrl) {
         throw new Error("API URL is not defined");
       }
-
-      // Make the API call to login
       const res = await axios.post(`${apiUrl}/login`, {
         email,
         password,
@@ -31,16 +31,18 @@ const Login = () => {
       // Save JWT token to localStorage
       localStorage.setItem("token", token);
 
-      // Use userData to set user state, navigate to dashboard, etc.
-      console.log("User data:", userData);
+      // Save user data to localStorage
+      localStorage.setItem("userData", JSON.stringify(userData));
 
-      // Display success message
+      // Set the token in axios default headers
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      // Set the user data in context
+      setUser(userData);
+
       toast.success("Login successful!");
-
-      // Navigate to the dashboard or desired route
       navigate("/dashboard");
     } catch (err) {
-      // Display error message
       toast.error(
         err.response?.data?.error || "An error occurred. Please try again."
       );

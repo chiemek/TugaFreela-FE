@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DHeader from "../../DashboardHeader/DashboardHeader";
 import MoneyBag from "../../../../assets/icons/moneyBag.png";
 import Justice from "../../../../assets/icons/auction.png";
@@ -20,17 +20,49 @@ import People from "../../../../assets/icons/peopless.png";
 import Edity from "../../../../assets/icons/editss.png";
 import Viewy from "../../../../assets/icons/viewss.png";
 import "./Dashboard.css";
+import { useNavigate } from "react-router-dom";
 
 const DashBoard = () => {
   const [activeModalId, setActiveModalId] = useState(null);
+  const [user, setUser] = useState(null); // Initialize user state
+  const navigate = useNavigate();
 
+  // Retrieve the user data from localStorage on component mount
+  useEffect(() => {
+    const storedUserData = JSON.parse(localStorage.getItem("userData"));
+    if (storedUserData) {
+      setUser(storedUserData);
+    } else {
+      // Redirect to login if no user data is found
+      navigate("/login");
+    }
+  }, [navigate]);
+
+  // Destructure user data once it is loaded
+  const {
+    email,
+    role,
+    profileImageUrl,
+    jobProposals,
+    level,
+    views,
+    balance,
+    firstName,
+    activeProposals,
+    acceptedProposals,
+  } = user || {};
+
+  if (!user) {
+    return <div>Loading...</div>; // Show a loading state while data is being fetched
+  }
   const handleToggle = (id) => {
     setActiveModalId((prevId) => (prevId === id ? null : id));
   };
+
   const subHeader = [
     {
       image: MoneyBag,
-      amount: `R$${8000}`,
+      amount: `R$${balance}`,
       description: "Seus ganhos",
     },
     {
@@ -40,12 +72,12 @@ const DashBoard = () => {
     },
     {
       image: Check,
-      amount: 7,
+      amount: acceptedProposals,
       description: "Propostas aceitas",
     },
     {
       image: View,
-      amount: 1854,
+      amount: views,
       description: "Views no perfil",
     },
   ];
@@ -111,19 +143,27 @@ const DashBoard = () => {
       case "Em Disputa":
         return "orange";
       default:
-        return "gray"; // Default color
+        return "gray";
     }
   };
 
+  if (!profileImageUrl) {
+    return <div>Loading...</div>; // or a fallback image
+  }
+
   return (
     <>
-      <DHeader logoLink="/Dashboard" editProfile="/EditProfile" />
+      <DHeader
+        logoLink="/Dashboard"
+        editProfile="/edit-profile"
+        ProfileUrl={profileImageUrl}
+      />
       <div className="freelancerDashboard">
         <div className="subHeader">
           {subHeader.map((item, index) => (
             <div className="cards" key={index}>
               <div className="img-container">
-                <img src={item.image} alt={item.image.name} />
+                <img src={item.image} alt={item.description} />
               </div>
               <div className="desc-container">
                 <div className="amount">{item.amount}</div>
@@ -137,18 +177,18 @@ const DashBoard = () => {
             <div className="first-box">
               <div className="about">
                 <img
-                  src={ProfilPic}
+                  src={profileImageUrl || ProfilPic}
                   alt="profile picture"
                   className="profile"
                 />
                 <div className="text">
                   <div className="rating">
                     <h5>Membro gratuito</h5>
-                    <h3>Julian Dalsin</h3>
+                    <h3>{firstName}</h3>
                     {Array(5)
                       .fill()
                       .map((_, index) => (
-                        <img key={index} src={Star} alt="" />
+                        <img key={index} src={Star} alt="star" />
                       ))}
                     <p>10</p>
                   </div>
@@ -157,13 +197,13 @@ const DashBoard = () => {
               </div>
               <div className="details">
                 <div>
-                  <p>R$ 3.270,00</p>
+                  <p>R$ {balance}</p>
                   <p style={{ color: "#D6B8FF", fontSize: "0.8rem" }}>
                     Despesa atual
                   </p>
                 </div>
                 <div>
-                  <p>12</p>
+                  <p>{acceptedProposals}</p>
                   <p style={{ color: "#D6B8FF", fontSize: "0.8rem" }}>
                     Projetos Ativos
                   </p>
@@ -182,7 +222,7 @@ const DashBoard = () => {
               </div>
               <div className="details2">
                 <ProgressBar
-                  currentProgress={50}
+                  currentProgress={level}
                   maxProgress={200}
                   color="#f6f3f3"
                 />
@@ -226,7 +266,7 @@ const DashBoard = () => {
               {JobProposals.map((job, index) => (
                 <div className="job-card" key={index}>
                   <div style={{ display: "flex" }}>
-                    <img src={job.image} alt={job.image.name} className="doc" />
+                    <img src={job.image} alt="job document" className="doc" />
                     <div className="job-type">
                       <div className="topic">
                         <p>{job.appName}</p>
@@ -256,7 +296,7 @@ const DashBoard = () => {
                   {activeModalId === `proposal-${index}` && <UpdateJob />}
                   <img
                     src={Edit}
-                    alt={job.image.name}
+                    alt="edit icon"
                     className="threeDots"
                     onClick={() => handleToggle(`proposal-${index}`)}
                   />
@@ -268,7 +308,7 @@ const DashBoard = () => {
               {JobProposal2.map((job, index) => (
                 <div className="job-card" key={index}>
                   <div style={{ display: "flex" }}>
-                    <img src={job.image} alt={job.image.name} className="doc" />
+                    <img src={job.image} alt="job document" className="doc" />
                     <div className="job-type">
                       <div className="topic">
                         <p>{job.appName}</p>
@@ -299,9 +339,9 @@ const DashBoard = () => {
                   {activeModalId === `proposal2-${index}` && <UpdateJob />}
                   <img
                     src={Edit}
-                    alt={job.image.name}
+                    alt="edit icon"
                     className="threeDots"
-                    onClick={() => handleToggle(`proposal-${index}`)}
+                    onClick={() => handleToggle(`proposal2-${index}`)}
                   />
                 </div>
               ))}
@@ -322,31 +362,31 @@ export const UpdateJob = () => {
         <p>Enviar Mensagem</p>
       </div>
       <div>
-        <img src={Add} alt="email icon" />
+        <img src={Add} alt="add icon" />
         <p>Solicitar Novo Prazo</p>
       </div>
       <div>
-        <img src={Checky} alt="email icon" />
+        <img src={Checky} alt="check icon" />
         <p>Concluir Projeto</p>
       </div>
       <div>
-        <img src={Cancel} alt="email icon" />
+        <img src={Cancel} alt="cancel icon" />
         <p>Fechar Projeto</p>
       </div>
       <div>
-        <img src={Viewy} alt="email icon" />
+        <img src={Viewy} alt="view icon" />
         <p>Visualizar Projeto</p>
       </div>
       <div>
-        <img src={People} alt="email icon" />
+        <img src={People} alt="people icon" />
         <p>Abir Disputa</p>
       </div>
       <div>
-        <img src={Edity} alt="email icon" />
+        <img src={Edity} alt="edit icon" />
         <p>Editar Projeto</p>
       </div>
       <div>
-        <img src={Add} alt="email icon" />
+        <img src={Add} alt="add icon" />
         <p>Analisar Novo Prazo</p>
       </div>
     </div>

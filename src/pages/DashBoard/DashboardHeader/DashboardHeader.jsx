@@ -14,6 +14,7 @@ const DashboardHeader = ({
   findJob,
   finance,
   editProfile,
+  ProfileUrl,
 }) => {
   const [toggleNotification, setToggleNotification] = useState(false);
   const [toggleMessage, setToggleMessage] = useState(false);
@@ -66,7 +67,7 @@ const DashboardHeader = ({
           </Link>
           <HashLink to={editProfile}>
             <img
-              src={ProfilPic}
+              src={ProfileUrl}
               alt="profile picture"
               className="Profile-Pic"
             />
