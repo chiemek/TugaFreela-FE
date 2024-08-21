@@ -22,6 +22,7 @@ const Profile = () => {
   const [showModal, setShowModal] = useState(false); // State to control modal visibility
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   // Function to handle modal opening
   const handleOpenModal = () => {
@@ -91,46 +92,28 @@ const Profile = () => {
 
   // handle delete
   const handleDeleteAccount = async () => {
-    // Confirm before proceeding
-    if (
-      !window.confirm(
-        "Are you sure you want to delete your account? This action cannot be undone."
-      )
-    ) {
-      return;
-    }
-
-    // Set loading state if needed
-    setLoading(true);
-
+    setLoading(true); // Indicate that loading is in progress
     try {
-      // Get the token from local storage
-      const token = localStorage.getItem("authToken");
+      const token = localStorage.getItem("token");
 
-      // Send the delete request with the user ID
-      const response = await axios.delete(`/user/${userId}`, {
+      const response = await axios.delete(`${apiUrl}/user/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      // Check the response status
       if (response.status === 200) {
-        // Notify user of success
         toast.success("Account deleted successfully!");
         localStorage.removeItem("authToken");
         localStorage.removeItem("userData");
         navigate("/login");
       } else {
-        // Notify user of error
-        toast.error(`Error: ${response.data.error}`);
+        toast.error(response.data.error || "Error deleting account");
       }
     } catch (err) {
-      // Notify user of error
-      toast.error(`Error: ${err.response?.data?.error || err.message}`);
+      toast.error(err.response?.data?.error || err.message);
     } finally {
-      // Reset loading state if needed
-      setLoading(false);
+      setLoading(false); // Indicate that loading is complete
     }
   };
 
