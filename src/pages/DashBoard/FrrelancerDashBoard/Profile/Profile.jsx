@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../DashboardHeader/DashboardHeader";
-
 import ProfilPic from "../../../../assets/images/img1427.jpg";
 import Star from "../../../../assets/icons/star.png";
 import ProfileVerification from "../../../../assets/icons/profileIcon.png";
@@ -9,18 +8,20 @@ import PhoneVerification from "../../../../assets/icons/phoneVeri.png";
 import EmailVerification from "../../../../assets/icons/emailVeri.png";
 import FacebookVerification from "../../../../assets/icons/facebookVeri.png";
 import Button from "../../../../components/Button/Button";
-
+import axios from "axios";
 import "./Profile.css";
 import ProgressBar from "../../../../components/ProgressBar/ProgressBar";
 import Footer2 from "../../../../components/Footer/Footer2/Footer2";
 import { HashLink } from "react-router-hash-link";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import "../../../../components/DeleteProfile/DeleteProfile";
 
 const Profile = () => {
   const [user, setUser] = useState(null); // Initialize user state
   const [showModal, setShowModal] = useState(false); // State to control modal visibility
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   // Function to handle modal opening
   const handleOpenModal = () => {
@@ -47,6 +48,7 @@ const Profile = () => {
   // Destructure user data once it is loaded
   const {
     email,
+    id,
     role,
     profileImageUrl,
     jobProposals,
@@ -67,7 +69,8 @@ const Profile = () => {
     chat,
     skills,
   } = user || {};
-
+  console.log(id);
+  const userId = id;
   // console.log(description);
 
   if (!user) {
@@ -88,30 +91,46 @@ const Profile = () => {
 
   // handle delete
   const handleDeleteAccount = async () => {
-    const navigate = useNavigate();
+    // Confirm before proceeding
+    if (
+      !window.confirm(
+        "Are you sure you want to delete your account? This action cannot be undone."
+      )
+    ) {
+      return;
+    }
+
+    // Set loading state if needed
+    setLoading(true);
 
     try {
+      // Get the token from local storage
       const token = localStorage.getItem("authToken");
 
-      const response = await axios.delete("/api/users/delete-account", {
+      // Send the delete request with the user ID
+      const response = await axios.delete(`/user/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
+      // Check the response status
       if (response.status === 200) {
-        // Account deletion successful
+        // Notify user of success
+        toast.success("Account deleted successfully!");
         localStorage.removeItem("authToken");
         localStorage.removeItem("userData");
         navigate("/login");
       } else {
-        console.error("Error deleting account:", response.data.msg);
+        // Notify user of error
+        toast.error(`Error: ${response.data.error}`);
       }
     } catch (err) {
-      console.error(
-        "Error deleting account:",
-        err.response?.data?.msg || err.message
-      );
+      // Notify user of error
+      toast.error(`Error: ${err.response?.data?.error || err.message}`);
+    } finally {
+      // Reset loading state if needed
+      setLoading(false);
     }
   };
 
@@ -373,8 +392,9 @@ const Profile = () => {
               font=".7rem"
               width="9rem"
               onClick={handleDeleteAccount}
+              disabled={loading}
             >
-              DELETAR
+              {loading ? "Deleting..." : " DELETAR"}
             </Button>
           </div>
         </div>

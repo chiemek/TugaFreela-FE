@@ -37,9 +37,6 @@ const Login = () => {
       // Set the token in axios default headers
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      // Set the user data in context
-      setUser(userData);
-
       toast.success("Login successful!");
       navigate("/dashboard");
     } catch (err) {
