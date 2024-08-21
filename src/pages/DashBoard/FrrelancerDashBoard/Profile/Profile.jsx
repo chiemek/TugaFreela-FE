@@ -72,8 +72,8 @@ const Profile = () => {
   } = user || {};
   console.log(id);
   const userId = id;
-  // console.log(description);
 
+  // console.log(description);
   if (!user) {
     return <div>Loading...</div>; // Show a loading state while data is being fetched
   }
