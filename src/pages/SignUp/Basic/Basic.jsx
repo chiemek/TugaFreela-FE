@@ -233,7 +233,9 @@ const CombinedForm = () => {
       });
       console.log("Response:", response.data);
       toast.success("Registration successful!");
-      showForm === "client" ? navigate("/ClientDashboard") : navigate("/Login");
+      showForm === "client"
+        ? navigate("/client-dashboard")
+        : navigate("/Login");
     } catch (error) {
       console.error(
         "Error:",
@@ -296,7 +298,7 @@ const CombinedForm = () => {
                   name="phoneNumber"
                   id="phone"
                   value={formState.phoneNumber}
-                  placeholder="Telefone"
+                  placeholder="Telefone 920 *** ***"
                   onChange={handleInputChange}
                 />
               </div>

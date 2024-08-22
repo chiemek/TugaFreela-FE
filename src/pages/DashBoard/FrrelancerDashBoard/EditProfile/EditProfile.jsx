@@ -80,19 +80,18 @@ const EditProfile = () => {
     fileInputRef.current.click();
   };
 
-  // Handle form submission
+  // handle submit
   const handleUpdate = async (e) => {
-    e.preventDefault(); // Prevent default form submission
-    setLoading(true); // Indicate that loading is in progress
+    e.preventDefault();
+    setLoading(true);
 
     try {
       const token = localStorage.getItem("token");
-      const userId = id; // User ID from the user data
+      const userId = id;
 
-      // Create a FormData object to send file and other data
       const formData = new FormData();
       if (selectedFile) {
-        formData.append("profilePic", selectedFile); // Ensure this matches the Multer field name
+        formData.append("profilePic", selectedFile);
       }
       formData.append("title", title);
       formData.append("skills", skills);
@@ -108,24 +107,38 @@ const EditProfile = () => {
 
       if (response.status === 200) {
         toast.success("User updated successfully!");
+
         const updatedUser = response.data.user;
+
+        // Retrieve current data from localStorage
+        const currentUserData =
+          JSON.parse(localStorage.getItem("userData")) || {};
+
+        // Merge the updated fields with the existing data
+        const mergedUserData = {
+          ...currentUserData,
+          ...updatedUser,
+          // Alternatively, you could use Object.assign:
+          // Object.assign({}, currentUserData, updatedUser)
+        };
+
+        // Save merged data to localStorage
+        localStorage.setItem("userData", JSON.stringify(mergedUserData));
+
+        // Update the state with new user data
+        setUser(mergedUserData);
+        setImagePreview(
+          mergedUserData.profilePic || currentUserData.profilePic
+        );
         setUser(updatedUser);
         setImagePreview(updatedUser.profilePic);
-        setTitle("");
-        setSkills("");
-        setAreaOfInterest("");
-        setDescription("");
-
-        // Optionally, update localStorage or redirect
-        localStorage.setItem("userData", JSON.stringify(updatedUser));
-        // Optionally, update localStorage or redirect
       } else {
         toast.error(response.data.error || "Error updating user");
       }
     } catch (err) {
       toast.error(err.response?.data?.error || err.message);
     } finally {
-      setLoading(false); // Indicate that loading is complete
+      setLoading(false);
     }
   };
 

@@ -381,7 +381,7 @@ const Profile = () => {
             </Button>
           </div>
         </div>
-      )}{" "}
+      )}
       <Footer2 />
     </div>
   );

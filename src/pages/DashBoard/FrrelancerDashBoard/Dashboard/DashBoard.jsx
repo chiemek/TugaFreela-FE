@@ -245,7 +245,9 @@ const DashBoard = () => {
                       <h5>Nível</h5>
                       <h3>Iniciante</h3>
                     </div>
-                    <Button bgColor={"#FFC107"}>ENCONTRAR JOB</Button>
+                    <Button bgColor={"#FFC107"} onClick={handleOpenModal}>
+                      COMPRAR NÍVEL
+                    </Button>
                   </div>
                 </div>
                 <div className="details2">

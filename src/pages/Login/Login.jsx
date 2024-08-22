@@ -13,7 +13,6 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext); // Move useContext to the top level
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -39,7 +38,15 @@ const Login = () => {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       toast.success("Login successful!");
-      navigate("/dashboard");
+
+      // Redirect based on user role
+      if (userData.role === "freelancer") {
+        navigate("/dashboard");
+      } else if (userData.role === "client") {
+        navigate("/client-dashboard");
+      } else {
+        throw new Error("Unknown role");
+      }
     } catch (err) {
       toast.error(
         err.response?.data?.error || "An error occurred. Please try again."

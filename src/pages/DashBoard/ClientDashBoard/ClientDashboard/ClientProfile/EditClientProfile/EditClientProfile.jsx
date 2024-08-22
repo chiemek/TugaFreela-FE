@@ -57,7 +57,10 @@ const EditClientProfile = () => {
           <h1>Status</h1>
           <select name="options" id="">
             <option value="Em Andamento">Todos</option>
-            <option value="Em Disputa">Todos</option>
+            <option value="Em Disputa">Aguardando Pagamento</option>
+            <option value="Em Disputa">Fechado</option>
+            <option value="Em Disputa">Concluido</option>
+            <option value="Em Disputa"> Em Andamento</option>
           </select>
           <label htmlFor="">Client</label>
           <input type="text" name="name" placeholder="Nome do cliente" />
