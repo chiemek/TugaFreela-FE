@@ -9,8 +9,6 @@ import "./CombinedForm.css";
 
 // Regular expressions for validation
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const phoneRegex =
-  /^\+?\d{1,3}[-.\s]?(\(?\d{1,5}\)?[-.\s]?)?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
 
 const CombinedForm = () => {
@@ -108,11 +106,6 @@ const CombinedForm = () => {
     // Specific field validation
     if (!emailRegex.test(formState.email)) {
       toast.error("Invalid email format");
-      isValid = false;
-    }
-
-    if (!phoneRegex.test(formState.phoneNumber)) {
-      toast.error("Invalid phone number format");
       isValid = false;
     }
 
