@@ -84,7 +84,9 @@ const ClientProfile2 = () => {
     localStorage.clear();
 
     // Redirect to login page
-    navigate("/login");
+    setTimeout(() => {
+      navigate("/login");
+    }, 100); // 100 milliseconds delay
   };
 
   // handle delete
@@ -103,7 +105,12 @@ const ClientProfile2 = () => {
         toast.success("Account deleted successfully!");
         localStorage.removeItem("authToken");
         localStorage.removeItem("userData");
-        navigate("/login");
+        setTimeout(() => {
+          navigate("/login");
+        }, 100); // 100 milliseconds delay
+
+        // Force a full page reload
+        window.location.reload();
       } else {
         toast.error(response.data.error || "Error deleting account");
       }

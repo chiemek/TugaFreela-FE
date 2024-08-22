@@ -233,9 +233,11 @@ const CombinedForm = () => {
       });
       console.log("Response:", response.data);
       toast.success("Registration successful!");
-      showForm === "client"
-        ? navigate("/client-dashboard")
-        : navigate("/Login");
+      setTimeout(() => {
+        showForm === "client"
+          ? navigate("/client-dashboard")
+          : navigate("/Login");
+      }, 100); // 100 milliseconds delay
     } catch (error) {
       console.error(
         "Error:",

@@ -36,7 +36,9 @@ const Change = () => {
 
       if (response.status === 200) {
         toast.success("Password successfully updated!");
-        navigate("/ThankYou");
+        setTimeout(() => {
+          navigate("/ThankYou");
+        }, 100); // 100 milliseconds delay
       } else {
         toast.error(
           response.data.error || "An error occurred. Please try again."

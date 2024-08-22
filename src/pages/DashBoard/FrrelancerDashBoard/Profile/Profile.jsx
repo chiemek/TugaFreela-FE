@@ -42,7 +42,9 @@ const Profile = () => {
       setUser(storedUserData);
     } else {
       // Redirect to login if no user data is found
-      navigate("/login");
+      setTimeout(() => {
+        navigate("/login");
+      }, 100); // 100 milliseconds delay
     }
   }, [navigate]);
 

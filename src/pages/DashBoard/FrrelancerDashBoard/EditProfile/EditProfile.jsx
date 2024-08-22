@@ -29,7 +29,9 @@ const EditProfile = () => {
       setUser(storedUserData);
       setImagePreview(storedUserData.profileImageUrl || "");
     } else {
-      navigate("/dashboard"); // Redirect if no user data is found
+      setTimeout(() => {
+        navigate("/dashboard"); // Redirect if no user data is found
+      }, 100); // 100 milliseconds delay
     }
   }, [navigate]);
 

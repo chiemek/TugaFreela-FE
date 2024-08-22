@@ -30,7 +30,9 @@ const Email = () => {
 
       if (response.status === 200) {
         toast.success("Password reset email sent!");
-        navigate("/Confirm"); // Uncomment if using react-router
+        setTimeout(() => {
+          navigate("/Confirm"); // Uncomment if using react-router
+        }, 100); // 100 milliseconds delay
       } else {
         toast.error(
           response.data.error || "An error occurred. Please try again."
