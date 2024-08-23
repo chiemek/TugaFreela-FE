@@ -263,8 +263,22 @@ const CombinedForm = () => {
                 Based on your role, you will be prompted to provide additional
                 details.
               </p>
-              <div className="radio">
-                <div className="ray">
+              <div
+                className="radio"
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  paddingInline: "1rem",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div
+                  className="ray"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
                   <input
                     type="radio"
                     name="role"
@@ -272,10 +286,20 @@ const CombinedForm = () => {
                     value="client"
                     checked={formState.role === "client"}
                     onChange={handleRoleChange}
+                    className="ray"
+                    style={{
+                      marginRight: ".5rem",
+                    }}
                   />
                   <label htmlFor="client">Cliente</label>
                 </div>
-                <div className="ray">
+                <div
+                  className="ray"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
                   <input
                     type="radio"
                     name="role"
@@ -283,29 +307,128 @@ const CombinedForm = () => {
                     value="freelancer"
                     checked={formState.role === "freelancer"}
                     onChange={handleRoleChange}
+                    style={{
+                      marginRight: ".5rem",
+                    }}
                   />
                   <label htmlFor="freelancer">Freelancer</label>
                 </div>
               </div>
               <div className="phone">
-                <input
-                  type="text"
-                  name="phoneNumber"
-                  id="phone"
-                  value={formState.phoneNumber}
-                  placeholder="Telefone 920 *** ***"
-                  onChange={handleInputChange}
-                />
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "50%",
+                    marginRight: "2rem",
+                  }}
+                >
+                  <p
+                    style={{
+                      margin: "0",
+                      fontSize: ".7rem",
+                      color: "red",
+                    }}
+                  >
+                    must be 10digits
+                  </p>
+                  <input
+                    type="text"
+                    name="phoneNumber"
+                    id="phone"
+                    value={formState.phoneNumber}
+                    placeholder="Telefone 920 *** ***"
+                    onChange={handleInputChange}
+                    style={{
+                      marginRight: "2rem",
+                      width: "100%",
+                    }}
+                  />
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "flex-start",
+                    width: "50%",
+                  }}
+                >
+                  <p
+                    style={{
+                      margin: "0",
+                      fontSize: ".7rem",
+                      color: "red",
+                    }}
+                  >
+                    invalid OTP
+                  </p>
+                  <input
+                    type="text"
+                    name="phoneNumber"
+                    id="phone"
+                    value={formState.phoneNumber}
+                    placeholder="OTP"
+                    onChange={handleInputChange}
+                    style={{ width: "100%" }}
+                  />
+                </div>
               </div>
               <div className="email">
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  placeholder="E-mail"
-                  value={formState.email}
-                  onChange={handleInputChange}
-                />
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "flex-start",
+                    width: "50%",
+                    marginRight: "2rem",
+                  }}
+                >
+                  <p
+                    style={{
+                      margin: "0",
+                      fontSize: ".7rem",
+                      color: "red",
+                    }}
+                  >
+                    invalid Email
+                  </p>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="E-mail"
+                    value={formState.email}
+                    onChange={handleInputChange}
+                    style={{ marginRight: "2rem", width: "100%" }}
+                  />
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "flex-start",
+                    width: "50%",
+                  }}
+                >
+                  <p
+                    style={{
+                      margin: "0",
+                      fontSize: ".7rem",
+                      color: "red",
+                    }}
+                  >
+                    invalid OTP
+                  </p>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="Email OTP"
+                    value={formState.email}
+                    onChange={handleInputChange}
+                    style={{ width: "100%" }}
+                  />
+                </div>
               </div>
               <div
                 style={{
@@ -316,13 +439,24 @@ const CombinedForm = () => {
                 }}
                 className="ddoobb"
               >
-                <label
-                  htmlFor=""
-                  className="dob-c"
-                  style={{ fontSize: ".8rem" }}
-                >
-                  Date of Birth
-                </label>
+                <div>
+                  <label
+                    htmlFor=""
+                    className="dob-c"
+                    style={{ fontSize: ".8rem" }}
+                  >
+                    Date of Birth
+                  </label>
+                  <p
+                    style={{
+                      margin: "0",
+                      fontSize: ".7rem",
+                      color: "red",
+                    }}
+                  >
+                    Empty date
+                  </p>
+                </div>
                 <input
                   type="text"
                   name="dateOfBirth"
@@ -337,48 +471,150 @@ const CombinedForm = () => {
                   style={{ width: "100%" }}
                 />
               </div>
-              <input
-                type="text"
-                name="address"
-                id="address"
-                placeholder="Morada"
-                value={formState.address}
-                onChange={handleInputChange}
-              />
-              <div className="city">
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "flex-start",
+                  width: "100%",
+                  marginRight: "2rem",
+                }}
+              >
+                <p
+                  style={{
+                    margin: "0",
+                    fontSize: ".7rem",
+                    color: "red",
+                  }}
+                >
+                  Empty Morada field{" "}
+                </p>
                 <input
                   type="text"
-                  name="postalCode"
-                  id="postalCode"
-                  placeholder="Código Postal"
-                  value={formState.postalCode}
-                  onChange={handleInputChange}
-                />
-                <input
-                  type="text"
-                  name="state"
-                  id="state"
-                  placeholder="Distrito"
-                  value={formState.state}
+                  name="address"
+                  id="address"
+                  placeholder="Morada"
+                  value={formState.address}
                   onChange={handleInputChange}
                 />
               </div>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                placeholder="Senha"
-                value={formState.password}
-                onChange={handleInputChange}
-              />
-              <input
-                type="password"
-                name="confirmPassword"
-                id="confirmPassword"
-                placeholder="Confirme a senha"
-                value={formState.confirmPassword}
-                onChange={handleInputChange}
-              />
+              <div className="city">
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "flex-start",
+                    width: "50%",
+                    marginRight: "2rem",
+                  }}
+                >
+                  <p
+                    style={{
+                      margin: "0",
+                      fontSize: ".7rem",
+                      color: "red",
+                    }}
+                  >
+                    Empty Código Postal field
+                  </p>
+                  <input
+                    type="text"
+                    name="postalCode"
+                    id="postalCode"
+                    placeholder="Código Postal"
+                    value={formState.postalCode}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "flex-start",
+                    width: "50%",
+                  }}
+                >
+                  <p
+                    style={{
+                      margin: "0",
+                      fontSize: ".7rem",
+                      color: "red",
+                    }}
+                  >
+                    Empty Distrito field
+                  </p>
+
+                  <input
+                    type="text"
+                    name="state"
+                    id="state"
+                    placeholder="Distrito"
+                    value={formState.state}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+              <div style={{ display: "flex" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "flex-start",
+                    width: "50%",
+                    marginRight: "2rem",
+                  }}
+                >
+                  <p
+                    style={{
+                      margin: "0",
+                      fontSize: ".5rem",
+                      color: "red",
+                      textAlign: "left",
+                    }}
+                  >
+                    Invalid Password must contain character,number,text,
+                    uppercase
+                  </p>
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="Senha"
+                    value={formState.password}
+                    onChange={handleInputChange}
+                    style={{ width: "100%" }}
+                  />
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "flex-start",
+                    width: "50%",
+                  }}
+                >
+                  <p
+                    style={{
+                      margin: "0",
+                      fontSize: ".7rem",
+                      color: "red",
+                      marginBottom: ".5rem",
+                    }}
+                  >
+                    Password dont match
+                  </p>
+                  <input
+                    type="password"
+                    name="confirmPassword"
+                    id="confirmPassword"
+                    placeholder="Confirme a senha"
+                    value={formState.confirmPassword}
+                    onChange={handleInputChange}
+                    style={{ width: "100%" }}
+                  />
+                </div>
+              </div>
+
               <div className="terms">
                 <input
                   type="checkbox"

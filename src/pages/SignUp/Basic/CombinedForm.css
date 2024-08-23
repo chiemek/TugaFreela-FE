@@ -34,7 +34,7 @@
     margin-bottom: 2rem;
   }
 
-  .radio {
+  /* .radio {
     display: flex;
     justify-content: space-between;
     padding-inline: 3rem;
@@ -45,7 +45,7 @@
       align-items: center;
       gap: 0.5rem;
     }
-  }
+  } */
 
   .phone,
   .email {
@@ -60,7 +60,6 @@
 
   .city {
     display: flex;
-    gap: 2rem;
   }
 
   .high {
