@@ -39,6 +39,7 @@ const CombinedForm = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [imagePreview, setImagePreview] = useState(Profile);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [errors, setErrors] = useState({});
   const fileInputRef = useRef(null);
   const maxWords = 500;
   const navigate = useNavigate();
@@ -50,6 +51,7 @@ const CombinedForm = () => {
       ...prevState,
       [name]: value,
     }));
+    validateField(name, value);
   };
 
   // Change role
@@ -59,6 +61,7 @@ const CombinedForm = () => {
       ...prevState,
       role: role,
     }));
+    validateField("role", role); // Updated: Validate role on change
   };
 
   // Trim description field
@@ -82,12 +85,15 @@ const CombinedForm = () => {
   // Validate input fields
   const validateForm = () => {
     let isValid = true;
+    const newErrors = {}; // Updated: Initialize new errors object
 
     // Check required fields
     const requiredFields = [
       "role",
       "phoneNumber",
+      "phoneNumberOTP",
       "email",
+      "emailOTP",
       "dateOfBirth",
       "address",
       "postalCode",
@@ -99,6 +105,7 @@ const CombinedForm = () => {
     requiredFields.forEach((field) => {
       if (!formState[field]) {
         toast.error(`${field.replace(/([A-Z])/g, " $1")} is required.`);
+        newErrors[field] = `${field.replace(/([A-Z])/g, " $1")} is required.`; // Comment: Added validation for new fields
         isValid = false;
       }
     });
@@ -106,6 +113,7 @@ const CombinedForm = () => {
     // Specific field validation
     if (!emailRegex.test(formState.email)) {
       toast.error("Invalid email format");
+      newErrors.email = "Invalid email format"; // Updated: Email format error
       isValid = false;
     }
 
@@ -113,20 +121,51 @@ const CombinedForm = () => {
       toast.error(
         "Password must be at least 8 characters long, include one letter, one number, and one special character"
       );
+      newErrors.password =
+        "Password must be at least 8 characters long, include one letter, one number, and one special character"; // Updated: Password format error
+
       isValid = false;
     }
 
     if (formState.password !== formState.confirmPassword) {
       toast.error("Passwords do not match");
+      newErrors.confirmPassword = "Passwords do not match"; // Updated: Password mismatch error
       isValid = false;
     }
 
     if (!termsAccepted) {
       toast.error("You must accept the terms and conditions.");
+      newErrors.terms = "You must accept the terms and conditions."; // Updated: Terms acceptance error
       isValid = false;
     }
 
+    setErrors(newErrors); // Updated: Set errors state
     return isValid;
+  };
+
+  const validateField = (fieldName, value) => {
+    let newErrors = { ...errors }; // Updated: Validate individual field
+
+    if (!value) {
+      newErrors[fieldName] = `${fieldName.replace(
+        /([A-Z])/g,
+        " $1"
+      )} is required.`; // Updated: Error for empty fields
+    } else {
+      delete newErrors[fieldName];
+      if (fieldName === "email" && !emailRegex.test(value)) {
+        newErrors.email = "Invalid email format"; // Updated: Email format validation
+      }
+      if (fieldName === "password" && !passwordRegex.test(value)) {
+        newErrors.password =
+          "Password must be at least 8 characters long, include one letter, one number, and one special character"; // Updated: Password format validation
+      }
+      if (fieldName === "confirmPassword" && value !== formState.password) {
+        newErrors.confirmPassword = "Passwords do not match"; // Updated: Confirm password validation
+      }
+    }
+
+    setErrors(newErrors); // Updated: Set errors state
   };
 
   // First form next button
@@ -172,6 +211,7 @@ const CombinedForm = () => {
   // Terms and condition checkbox
   const handleCheckboxChange = (e) => {
     setTermsAccepted(e.target.checked);
+    validateField("terms", e.target.checked); // Updated: Validate terms acceptance
   };
 
   // Image to display instead of the default profile image and push to backend
@@ -263,6 +303,17 @@ const CombinedForm = () => {
                 Based on your role, you will be prompted to provide additional
                 details.
               </p>
+              {errors.role && (
+                <p
+                  style={{
+                    margin: "0",
+                    fontSize: "1rem",
+                    color: "red",
+                  }}
+                >
+                  {errors.role}
+                </p>
+              )}
               <div
                 className="radio"
                 style={{
@@ -314,6 +365,7 @@ const CombinedForm = () => {
                   <label htmlFor="freelancer">Freelancer</label>
                 </div>
               </div>
+
               <div className="phone">
                 <div
                   style={{
@@ -323,15 +375,17 @@ const CombinedForm = () => {
                     marginRight: "2rem",
                   }}
                 >
-                  <p
-                    style={{
-                      margin: "0",
-                      fontSize: ".7rem",
-                      color: "red",
-                    }}
-                  >
-                    must be 10digits
-                  </p>
+                  {errors.phoneNumber && (
+                    <p
+                      style={{
+                        margin: "0",
+                        fontSize: ".7rem",
+                        color: "red",
+                      }}
+                    >
+                      must be 10digits
+                    </p>
+                  )}
                   <input
                     type="text"
                     name="phoneNumber"
@@ -353,20 +407,21 @@ const CombinedForm = () => {
                     width: "50%",
                   }}
                 >
-                  <p
-                    style={{
-                      margin: "0",
-                      fontSize: ".7rem",
-                      color: "red",
-                    }}
-                  >
-                    invalid OTP
-                  </p>
+                  {errors.phoneNumberOTP && (
+                    <p
+                      style={{
+                        margin: "0",
+                        fontSize: ".7rem",
+                        color: "red",
+                      }}
+                    >
+                      invalid OTP
+                    </p>
+                  )}
                   <input
                     type="text"
-                    name="phoneNumber"
+                    name="phoneNumber otp"
                     id="phone"
-                    value={formState.phoneNumber}
                     placeholder="OTP"
                     onChange={handleInputChange}
                     style={{ width: "100%" }}
@@ -383,15 +438,17 @@ const CombinedForm = () => {
                     marginRight: "2rem",
                   }}
                 >
-                  <p
-                    style={{
-                      margin: "0",
-                      fontSize: ".7rem",
-                      color: "red",
-                    }}
-                  >
-                    invalid Email
-                  </p>
+                  {errors.email && (
+                    <p
+                      style={{
+                        margin: "0",
+                        fontSize: ".7rem",
+                        color: "red",
+                      }}
+                    >
+                      invalid Email
+                    </p>
+                  )}
                   <input
                     type="email"
                     name="email"
@@ -410,21 +467,22 @@ const CombinedForm = () => {
                     width: "50%",
                   }}
                 >
-                  <p
-                    style={{
-                      margin: "0",
-                      fontSize: ".7rem",
-                      color: "red",
-                    }}
-                  >
-                    invalid OTP
-                  </p>
+                  {errors.emailOTP && (
+                    <p
+                      style={{
+                        margin: "0",
+                        fontSize: ".7rem",
+                        color: "red",
+                      }}
+                    >
+                      invalid OTP
+                    </p>
+                  )}
                   <input
                     type="email"
-                    name="email"
+                    name="email otp"
                     id="email"
                     placeholder="Email OTP"
-                    value={formState.email}
                     onChange={handleInputChange}
                     style={{ width: "100%" }}
                   />
@@ -447,15 +505,17 @@ const CombinedForm = () => {
                   >
                     Date of Birth
                   </label>
-                  <p
-                    style={{
-                      margin: "0",
-                      fontSize: ".7rem",
-                      color: "red",
-                    }}
-                  >
-                    Empty date
-                  </p>
+                  {errors.dateOfBirth && (
+                    <p
+                      style={{
+                        margin: "0",
+                        fontSize: ".7rem",
+                        color: "red",
+                      }}
+                    >
+                      Empty date
+                    </p>
+                  )}
                 </div>
                 <input
                   type="text"
@@ -480,15 +540,17 @@ const CombinedForm = () => {
                   marginRight: "2rem",
                 }}
               >
-                <p
-                  style={{
-                    margin: "0",
-                    fontSize: ".7rem",
-                    color: "red",
-                  }}
-                >
-                  Empty Morada field{" "}
-                </p>
+                {errors.address && (
+                  <p
+                    style={{
+                      margin: "0",
+                      fontSize: ".7rem",
+                      color: "red",
+                    }}
+                  >
+                    Empty Morada field
+                  </p>
+                )}
                 <input
                   type="text"
                   name="address"
@@ -508,15 +570,17 @@ const CombinedForm = () => {
                     marginRight: "2rem",
                   }}
                 >
-                  <p
-                    style={{
-                      margin: "0",
-                      fontSize: ".7rem",
-                      color: "red",
-                    }}
-                  >
-                    Empty Código Postal field
-                  </p>
+                  {errors.postalCode && (
+                    <p
+                      style={{
+                        margin: "0",
+                        fontSize: ".7rem",
+                        color: "red",
+                      }}
+                    >
+                      Empty Código Postal field
+                    </p>
+                  )}
                   <input
                     type="text"
                     name="postalCode"
@@ -534,15 +598,17 @@ const CombinedForm = () => {
                     width: "50%",
                   }}
                 >
-                  <p
-                    style={{
-                      margin: "0",
-                      fontSize: ".7rem",
-                      color: "red",
-                    }}
-                  >
-                    Empty Distrito field
-                  </p>
+                  {errors.state && (
+                    <p
+                      style={{
+                        margin: "0",
+                        fontSize: ".7rem",
+                        color: "red",
+                      }}
+                    >
+                      Empty Distrito
+                    </p>
+                  )}
 
                   <input
                     type="text"
@@ -564,17 +630,19 @@ const CombinedForm = () => {
                     marginRight: "2rem",
                   }}
                 >
-                  <p
-                    style={{
-                      margin: "0",
-                      fontSize: ".5rem",
-                      color: "red",
-                      textAlign: "left",
-                    }}
-                  >
-                    Invalid Password must contain character,number,text,
-                    uppercase
-                  </p>
+                  {errors.password && (
+                    <p
+                      style={{
+                        margin: "0",
+                        fontSize: ".5rem",
+                        color: "red",
+                        textAlign: "left",
+                      }}
+                    >
+                      Invalid Password must contain character,number,text,
+                      uppercase
+                    </p>
+                  )}
                   <input
                     type="password"
                     name="password"
@@ -593,16 +661,18 @@ const CombinedForm = () => {
                     width: "50%",
                   }}
                 >
-                  <p
-                    style={{
-                      margin: "0",
-                      fontSize: ".7rem",
-                      color: "red",
-                      marginBottom: ".5rem",
-                    }}
-                  >
-                    Password dont match
-                  </p>
+                  {errors.confirmPassword && (
+                    <p
+                      style={{
+                        margin: "0",
+                        fontSize: ".7rem",
+                        color: "red",
+                        marginBottom: ".5rem",
+                      }}
+                    >
+                      Password dont match
+                    </p>
+                  )}
                   <input
                     type="password"
                     name="confirmPassword"
@@ -615,6 +685,17 @@ const CombinedForm = () => {
                 </div>
               </div>
 
+              {errors.terms && (
+                <p
+                  style={{
+                    margin: "0",
+                    fontSize: ".7rem",
+                    color: "red",
+                  }}
+                >
+                  {errors.terms}
+                </p>
+              )}
               <div className="terms">
                 <input
                   type="checkbox"
