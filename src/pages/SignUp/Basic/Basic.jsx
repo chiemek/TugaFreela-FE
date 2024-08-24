@@ -98,9 +98,7 @@ const CombinedForm = () => {
     const requiredFields = [
       "role",
       "phoneNumber",
-      "phoneNumberOTP",
       "email",
-      "emailOTP",
       "dateOfBirth",
       "address",
       "postalCode",
@@ -175,23 +173,64 @@ const CombinedForm = () => {
     setErrors(newErrors); // Updated: Set errors state
   };
 
-  // First form next button
+  const validateOtp = async (type) => {
+    const apiUrl = import.meta.env.VITE_API_URL;
+    const endpoint = `${apiUrl}/verify-otp`;
+    const data = {
+      identifier: formState[type === "phone" ? "phoneNumber" : "email"],
+      otp: otp[type],
+      type: type === "phone" ? "sms" : "email",
+    };
+    try {
+      const response = await axios.post(endpoint, data);
+      if (response.data && response.data.message) {
+        toast.success(response.data.message);
+      } else {
+        toast.success(`OTP for ${type} verified successfully`);
+      }
+      return true;
+    } catch (error) {
+      console.error("Error:", error);
+      if (error.response && error.response.data && error.response.data.error) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error(`Failed to verify ${type} OTP`);
+      }
+      return false;
+    }
+  };
+
+  // handle next
   const handleNext = async (e) => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
-    // Check if OTP was sent before proceeding
-    if (formState.phoneNumber && !otpSent.phone) {
-      toast.error("Phone number OTP not sent");
-      return;
-    }
-
+    // Check if email OTP was sent
     if (formState.email && !otpSent.email) {
       toast.error("Email OTP not sent");
       return;
     }
 
+    // Verify email OTP
+    if (formState.email && otpSent.email) {
+      if (!otp.email) {
+        toast.error("Please enter the email OTP");
+        return;
+      }
+
+      try {
+        const isValid = await validateOtp("email");
+        if (!isValid) {
+          return;
+        }
+      } catch (error) {
+        console.error("Error verifying email OTP:", error);
+        return;
+      }
+    }
+
+    // If we've reached this point, the email OTP is valid (or not required)
     setShowForm(formState.role);
   };
 
@@ -307,9 +346,7 @@ const CombinedForm = () => {
   const sendOtp = async (type) => {
     const apiUrl = import.meta.env.VITE_API_URL; // Ensure VITE_API_URL is set correctly in your environment variables
     const endpoint =
-      type === "phone"
-        ? `${apiUrl}/api/otp/send-sms-otp`
-        : `${apiUrl}/api/otp/send-email-otp`;
+      type === "phone" ? `${apiUrl}/send-sms-otp` : `${apiUrl}/send-email-otp`;
 
     // Prepare data to be sent in the request body
     const data = {
@@ -329,35 +366,12 @@ const CombinedForm = () => {
     }
   };
 
-  const validateOtp = async (type) => {
-    const apiUrl = import.meta.env.VITE_API_URL; // Ensure VITE_API_URL is set correctly in your environment variables
-    const endpoint = `${apiUrl}/verify-otp`;
-
-    // Prepare data to be sent in the request body
-    const data = {
-      identifier: formState[type], // Either phoneNumber or email based on type
-      otp: otp[type], // OTP entered by the user for either phone or email
-      type: type === "phone" ? "sms" : "email", // Set type for server-side verification
-    };
-
-    try {
-      // Sending POST request to verify the OTP
-      await axios.post(endpoint, data);
-      toast.success(`OTP for ${type} verified successfully`);
-      return true;
-    } catch (error) {
-      console.error("Error:", error);
-      setOtpErrors((prev) => ({ ...prev, [type]: `Invalid ${type} OTP` }));
-      return false;
-    }
-  };
-
-  // Automatically send OTP when phone number is valid and not yet sent
-  useEffect(() => {
-    if (validatePhoneNumber(formState.phoneNumber) && !otpSent.phone) {
-      sendOtp("phone");
-    }
-  }, [formState.phoneNumber]);
+  // // Automatically send OTP when phone number is valid and not yet sent
+  // useEffect(() => {
+  //   if (validatePhoneNumber(formState.phoneNumber) && !otpSent.phone) {
+  //     sendOtp("phone");
+  //   }
+  // }, [formState.phoneNumber]);
 
   // Automatically send OTP when email is valid and not yet sent
   useEffect(() => {
