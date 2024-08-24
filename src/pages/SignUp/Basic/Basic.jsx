@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Header from "../../../components/Header/Header";
 import Footer2 from "../../../components/Footer/Footer2/Footer2";
@@ -40,9 +40,16 @@ const CombinedForm = () => {
   const [imagePreview, setImagePreview] = useState(Profile);
   const [selectedFile, setSelectedFile] = useState(null);
   const [errors, setErrors] = useState({});
+  const [otp, setOtp] = useState({ phone: "", email: "" });
+  const [otpErrors, setOtpErrors] = useState({ phone: "", email: "" });
+  const [otpSent, setOtpSent] = useState({ phone: false, email: false });
+
   const fileInputRef = useRef(null);
   const maxWords = 500;
   const navigate = useNavigate();
+  // Validation functions
+  const validatePhoneNumber = (phoneNumber) => /^\d{9}$/.test(phoneNumber);
+  const validateEmail = (email) => emailRegex.test(email);
 
   // Change form input type
   const handleInputChange = (e) => {
@@ -169,12 +176,23 @@ const CombinedForm = () => {
   };
 
   // First form next button
-  const handleNext = (e) => {
+  const handleNext = async (e) => {
     e.preventDefault();
 
-    if (validateForm()) {
-      setShowForm(formState.role);
+    if (!validateForm()) return;
+
+    // Check if OTP was sent before proceeding
+    if (formState.phoneNumber && !otpSent.phone) {
+      toast.error("Phone number OTP not sent");
+      return;
     }
+
+    if (formState.email && !otpSent.email) {
+      toast.error("Email OTP not sent");
+      return;
+    }
+
+    setShowForm(formState.role);
   };
 
   // Skip button for client
@@ -285,6 +303,69 @@ const CombinedForm = () => {
     fileInputRef.current.click();
   };
 
+  // handleOtp
+  const sendOtp = async (type) => {
+    const apiUrl = import.meta.env.VITE_API_URL; // Ensure VITE_API_URL is set correctly in your environment variables
+    const endpoint =
+      type === "phone"
+        ? `${apiUrl}/api/otp/send-sms-otp`
+        : `${apiUrl}/api/otp/send-email-otp`;
+
+    // Prepare data to be sent in the request body
+    const data = {
+      [type === "phone" ? "phoneNumber" : "email"]: formState[type], // Dynamically setting either phoneNumber or email
+    };
+
+    try {
+      // Sending POST request to the appropriate endpoint
+      await axios.post(endpoint, data);
+      toast.success(`OTP sent to ${type}`);
+
+      // Update state to indicate OTP has been sent
+      setOtpSent((prev) => ({ ...prev, [type]: true }));
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error(`Failed to send OTP to ${type}`);
+    }
+  };
+
+  const validateOtp = async (type) => {
+    const apiUrl = import.meta.env.VITE_API_URL; // Ensure VITE_API_URL is set correctly in your environment variables
+    const endpoint = `${apiUrl}/verify-otp`;
+
+    // Prepare data to be sent in the request body
+    const data = {
+      identifier: formState[type], // Either phoneNumber or email based on type
+      otp: otp[type], // OTP entered by the user for either phone or email
+      type: type === "phone" ? "sms" : "email", // Set type for server-side verification
+    };
+
+    try {
+      // Sending POST request to verify the OTP
+      await axios.post(endpoint, data);
+      toast.success(`OTP for ${type} verified successfully`);
+      return true;
+    } catch (error) {
+      console.error("Error:", error);
+      setOtpErrors((prev) => ({ ...prev, [type]: `Invalid ${type} OTP` }));
+      return false;
+    }
+  };
+
+  // Automatically send OTP when phone number is valid and not yet sent
+  useEffect(() => {
+    if (validatePhoneNumber(formState.phoneNumber) && !otpSent.phone) {
+      sendOtp("phone");
+    }
+  }, [formState.phoneNumber]);
+
+  // Automatically send OTP when email is valid and not yet sent
+  useEffect(() => {
+    if (validateEmail(formState.email) && !otpSent.email) {
+      sendOtp("email");
+    }
+  }, [formState.email]);
+
   return (
     <>
       <Header />
@@ -365,7 +446,6 @@ const CombinedForm = () => {
                   <label htmlFor="freelancer">Freelancer</label>
                 </div>
               </div>
-
               <div className="phone">
                 <div
                   style={{
@@ -383,7 +463,7 @@ const CombinedForm = () => {
                         color: "red",
                       }}
                     >
-                      must be 10digits
+                      must have (+351 ) or other country code
                     </p>
                   )}
                   <input
@@ -420,10 +500,13 @@ const CombinedForm = () => {
                   )}
                   <input
                     type="text"
-                    name="phoneNumber otp"
-                    id="phone"
-                    placeholder="OTP"
-                    onChange={handleInputChange}
+                    name="phoneNumberOtp"
+                    id="phoneOtp"
+                    placeholder="Phone OTP"
+                    value={otp.phone}
+                    onChange={(e) =>
+                      setOtp((prev) => ({ ...prev, phone: e.target.value }))
+                    }
                     style={{ width: "100%" }}
                   />
                 </div>
@@ -480,10 +563,13 @@ const CombinedForm = () => {
                   )}
                   <input
                     type="email"
-                    name="email otp"
-                    id="email"
+                    name="emailOtp"
+                    id="emailOtp"
                     placeholder="Email OTP"
-                    onChange={handleInputChange}
+                    value={otp.email}
+                    onChange={(e) =>
+                      setOtp((prev) => ({ ...prev, email: e.target.value }))
+                    }
                     style={{ width: "100%" }}
                   />
                 </div>
@@ -684,7 +770,6 @@ const CombinedForm = () => {
                   />
                 </div>
               </div>
-
               {errors.terms && (
                 <p
                   style={{
@@ -708,7 +793,9 @@ const CombinedForm = () => {
                   Aceito os <Link to="/Terms">Termos de Serviço</Link>
                 </label>
               </div>
-              <button type="submit">Next</button>
+              <button type="submit" onClick={handleNext}>
+                Next
+              </button>
             </div>
           )}
 
