@@ -34,22 +34,6 @@ const CombinedForm = () => {
     profileImageUrl: "",
     profileImagePublicId: "",
   });
-  // reset form
-  const resetForm = () => {
-    setFormState({
-      role: "",
-      phoneNumber: "",
-      phoneNumberOtp: "",
-      email: "",
-      emailOtp: "",
-      dateOfBirth: "",
-      address: "",
-      postalCode: "",
-      state: "",
-      password: "",
-      confirmPassword: "",
-    });
-  };
 
   const [showForm, setShowForm] = useState("basic");
   const [termsAccepted, setTermsAccepted] = useState(false);
@@ -65,6 +49,18 @@ const CombinedForm = () => {
   const maxWords = 500;
   const navigate = useNavigate();
 
+  // Reset form function that uses initialFormState
+  const resetForm = () => {
+    setFormState(initialFormState);
+    setErrors({});
+    setOtp({ phone: "", email: "" });
+    setOtpErrors({ phone: "", email: "" });
+    setOtpSent({ phone: false, email: false });
+    setTermsAccepted(false);
+    setSelectedFile(null);
+    setImagePreview(null);
+  };
+
   useEffect(() => {
     if (
       showForm === "basic" ||
@@ -75,8 +71,12 @@ const CombinedForm = () => {
     }
   }, [showForm]);
 
+  useEffect(() => {
+    resetForm(); // Reset form state on component mount
+  }, []);
+
   // Validation functions
-  const validatePhoneNumber = (phoneNumber) => /^\d{9}$/.test(phoneNumber);
+  // const validatePhoneNumber = (phoneNumber) => /^\d{9}$/.test(phoneNumber);
   const validateEmail = (email) => emailRegex.test(email);
 
   // Change form input type
