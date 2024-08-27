@@ -51,7 +51,7 @@ const CombinedForm = () => {
 
   // Reset form function that uses initialFormState
   const resetForm = () => {
-    setFormState(initialFormState);
+    setFormState(formState);
     setErrors({});
     setOtp({ phone: "", email: "" });
     setOtpErrors({ phone: "", email: "" });
