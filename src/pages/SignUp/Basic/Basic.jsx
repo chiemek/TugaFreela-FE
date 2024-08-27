@@ -65,10 +65,15 @@ const CombinedForm = () => {
   const maxWords = 500;
   const navigate = useNavigate();
 
-  // start form empty
   useEffect(() => {
-    resetForm();
-  }, []); // This effect will run once when the component mounts
+    if (
+      showForm === "basic" ||
+      showForm === "freelancer" ||
+      showForm === "client"
+    ) {
+      resetForm(); // Reset the form state whenever the form is displayed
+    }
+  }, [showForm]);
 
   // Validation functions
   const validatePhoneNumber = (phoneNumber) => /^\d{9}$/.test(phoneNumber);
