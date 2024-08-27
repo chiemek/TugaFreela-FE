@@ -278,7 +278,29 @@ const CombinedForm = () => {
       });
       console.log("Response:", response.data);
       toast.success("Registration skipped and saved successfully!");
-      navigate("/ThankYou");
+      navigate("/");
+      setFormState({
+        role: "",
+        phoneNumber: "",
+        email: "",
+        dateOfBirth: "",
+        address: "",
+        postalCode: "",
+        state: "",
+        password: "",
+        confirmPassword: "",
+        firstName: "",
+        lastName: "",
+        id: "",
+        title: "",
+        description: "",
+        rate: "",
+        nif: "",
+        citizenCard: "",
+        categories: ["", ""],
+        profileImageUrl: "",
+        profileImagePublicId: "",
+      });
     } catch (error) {
       console.error(
         "Error:",
@@ -346,6 +368,28 @@ const CombinedForm = () => {
       });
       console.log("Response:", response.data);
       toast.success("Registration successful!");
+      setFormState({
+        role: "",
+        phoneNumber: "",
+        email: "",
+        dateOfBirth: "",
+        address: "",
+        postalCode: "",
+        state: "",
+        password: "",
+        confirmPassword: "",
+        firstName: "",
+        lastName: "",
+        id: "",
+        title: "",
+        description: "",
+        rate: "",
+        nif: "",
+        citizenCard: "",
+        categories: ["", ""],
+        profileImageUrl: "",
+        profileImagePublicId: "",
+      });
       setTimeout(() => {
         showForm === "client"
           ? navigate("/client-dashboard")
