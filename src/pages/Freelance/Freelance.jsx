@@ -78,7 +78,7 @@ const Freelance = () => {
               <Button bgColor="rgb(177, 137, 239)">QUERO CONTRATAR</Button>
             </Link>
 
-            <Link to="/FreelancerLogin">
+            <Link to="/freelance">
               <Button bgColor="#333">TRABALHE COMO FREELA</Button>
             </Link>
           </div>
@@ -143,7 +143,7 @@ const Freelance = () => {
                 PUBLIQUE UM PROJETO
               </Button>
             </Link>
-            <Link to="/FreelancerLogin">
+            <Link to="/freelance">
               <Button bgColor="#333" borderRadius="2rem">
                 TRABALHE COMO FREELA
               </Button>

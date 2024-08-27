@@ -68,7 +68,7 @@ const Home = () => {
             </span>
           </h2>
           <div className="main-button">
-            <Link to="/ContactUs">
+            <Link to="/contact-us">
               <Button
                 bgColor="rgba(214, 184, 255, 1)"
                 size="bold"
@@ -130,7 +130,7 @@ const Home = () => {
         </div>
 
         <div className="button">
-          <Link to="/ContactUs">
+          <Link to="/contact-us">
             <Button bgColor="rgba(214, 184, 255, 1)">
               PUBLIQUE UM PROJETO
             </Button>
@@ -155,7 +155,7 @@ const Home = () => {
               nas redes sociais, criar conteúdos que mantenham seus clientes
               interessados na sua marca e muito mais!
             </p>
-            <HashLink to="/ContactUs#conta">
+            <HashLink to="/contact-us#conta">
               <div className="btn-con">
                 <Button bgColor="rgba(214, 184, 255, 1)">
                   COMEÇE SUA JORNADA!
@@ -188,7 +188,7 @@ const Home = () => {
         </div>
 
         <div className="button">
-          <HashLink to="/ContactUs#conta">
+          <HashLink to="/contact-us#conta">
             <Button bgColor="rgba(214, 184, 255, 1)">
               PUBLIQUE UM PROJETO
             </Button>
