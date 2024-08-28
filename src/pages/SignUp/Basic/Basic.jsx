@@ -445,12 +445,12 @@ const CombinedForm = () => {
   //   }
   // }, [formState.phoneNumber]);
 
-  // // Automatically send OTP when email is valid and not yet sent
-  // useEffect(() => {
-  //   if (validateEmail(formState.email) && !otpSent.email) {
-  //     sendOtp("email");
-  //   }
-  // }, [formState.email]);
+  // Automatically send OTP when email is valid and not yet sent
+  useEffect(() => {
+    if (validateEmail(formState.email) && !otpSent.email) {
+      sendOtp("email");
+    }
+  }, [formState.email]);
 
   return (
     <>
