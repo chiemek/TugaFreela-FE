@@ -42,7 +42,7 @@ const Footer = () => {
               <Link to="/Basic">Projetos</Link>
             </li>
             <li>
-              <HashLink to="/ContactUs#cont">Contato</HashLink>
+              <HashLink to="/contact-us#cont">Contato</HashLink>
             </li>
             <li>
               <HashLink to="/FAQ#faq">F.A.Q</HashLink>

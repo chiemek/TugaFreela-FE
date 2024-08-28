@@ -79,38 +79,14 @@ const CombinedForm = () => {
   }
 
   useEffect(() => {
-    if (
-      showForm === "basic" ||
-      showForm === "freelancer" ||
-      showForm === "client"
-    ) {
-      resetForm(); // Reset the form state whenever the form is displayed
-
-      // Clear any potentially saved values in local storage
-      window.onload = function () {
-        localStorage.removeItem("email");
-        localStorage.removeItem("password");
-      };
-
-      return () => {
-        // Clean up on component unmount
-        localStorage.removeItem("email");
-        localStorage.removeItem("password");
-      };
-    }
-  }, [showForm]);
-
-  useEffect(() => {
-    resetForm(); // Reset form state on component mount
-
-    // Clear any potentially saved values in local storage
-    window.onload = function () {
-      localStorage.removeItem("email");
-      localStorage.removeItem("password");
-    };
+    // reset form
+    resetForm();
+    // This will run once when the component mounts
+    localStorage.removeItem("email");
+    localStorage.removeItem("password");
 
     return () => {
-      // Clean up on component unmount
+      // Cleanup on component unmount
       localStorage.removeItem("email");
       localStorage.removeItem("password");
     };
@@ -485,10 +461,6 @@ const CombinedForm = () => {
   //     sendOtp("phone");
   //   }
   // }, [formState.phoneNumber]);
-  window.onload = function () {
-    localStorage.removeItem("email");
-    localStorage.removeItem("password");
-  };
 
   // Debounced email value
   const debouncedEmail = useDebounce(formState.email, 500); // 500ms debounce delay
@@ -873,7 +845,7 @@ const CombinedForm = () => {
                     value={formState.password}
                     onChange={handleInputChange}
                     style={{ width: "100%" }}
-                    autoComplete="off" // Prevent browser autofill
+                    autoComplete="new-password" // Prevent browser autofill
                   />
                 </div>
                 <div
