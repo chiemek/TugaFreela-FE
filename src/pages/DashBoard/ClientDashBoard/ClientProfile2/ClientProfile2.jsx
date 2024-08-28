@@ -14,6 +14,7 @@ import Footer2 from "../../../../components/Footer/Footer2/Footer2";
 import { useNavigate } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const ClientProfile2 = () => {
   const [user, setUser] = useState(null); // Initialize user state
