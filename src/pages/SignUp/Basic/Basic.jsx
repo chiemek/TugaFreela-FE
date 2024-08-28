@@ -507,6 +507,7 @@ const CombinedForm = () => {
         <form
           onSubmit={showForm === "basic" ? handleNext : handleRoleFormSubmit}
           className="basic-form"
+          autoComplete="off"
         >
           {showForm === "basic" && (
             <div className="container">
@@ -674,6 +675,7 @@ const CombinedForm = () => {
                     value={formState.email}
                     onChange={handleInputChange}
                     style={{ marginRight: "2rem", width: "100%" }}
+                    autoComplete="off" // Prevent browser autofill
                   />
                 </div>
                 <div
@@ -871,6 +873,7 @@ const CombinedForm = () => {
                     value={formState.password}
                     onChange={handleInputChange}
                     style={{ width: "100%" }}
+                    autoComplete="off" // Prevent browser autofill
                   />
                 </div>
                 <div
