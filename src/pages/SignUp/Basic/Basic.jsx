@@ -68,11 +68,35 @@ const CombinedForm = () => {
       showForm === "client"
     ) {
       resetForm(); // Reset the form state whenever the form is displayed
+
+      // Clear any potentially saved values in local storage
+      window.onload = function () {
+        localStorage.removeItem("email");
+        localStorage.removeItem("password");
+      };
+
+      return () => {
+        // Clean up on component unmount
+        localStorage.removeItem("email");
+        localStorage.removeItem("password");
+      };
     }
   }, [showForm]);
 
   useEffect(() => {
     resetForm(); // Reset form state on component mount
+
+    // Clear any potentially saved values in local storage
+    window.onload = function () {
+      localStorage.removeItem("email");
+      localStorage.removeItem("password");
+    };
+
+    return () => {
+      // Clean up on component unmount
+      localStorage.removeItem("email");
+      localStorage.removeItem("password");
+    };
   }, []);
 
   // Validation functions
