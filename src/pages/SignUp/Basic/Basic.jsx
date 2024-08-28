@@ -61,6 +61,23 @@ const CombinedForm = () => {
     setImagePreview(null);
   };
 
+  // Debounce hook
+  function useDebounce(value, delay) {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+
+    useEffect(() => {
+      const handler = setTimeout(() => {
+        setDebouncedValue(value);
+      }, delay);
+
+      return () => {
+        clearTimeout(handler);
+      };
+    }, [value, delay]);
+
+    return debouncedValue;
+  }
+
   useEffect(() => {
     if (
       showForm === "basic" ||
@@ -473,12 +490,15 @@ const CombinedForm = () => {
     localStorage.removeItem("password");
   };
 
+  // Debounced email value
+  const debouncedEmail = useDebounce(formState.email, 500); // 500ms debounce delay
+
   // Automatically send OTP when email is valid and not yet sent
   useEffect(() => {
     if (validateEmail(formState.email) && !otpSent.email) {
       sendOtp("email");
     }
-  }, [formState.email]);
+  }, [debouncedEmail, otpSent.email]);
 
   return (
     <>
