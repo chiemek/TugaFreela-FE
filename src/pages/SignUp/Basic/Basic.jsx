@@ -444,6 +444,10 @@ const CombinedForm = () => {
   //     sendOtp("phone");
   //   }
   // }, [formState.phoneNumber]);
+  window.onload = function () {
+    localStorage.removeItem("email");
+    localStorage.removeItem("password");
+  };
 
   // Automatically send OTP when email is valid and not yet sent
   useEffect(() => {
