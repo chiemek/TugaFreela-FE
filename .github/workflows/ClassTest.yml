@@ -1,0 +1,77 @@
+name: ClassTest CI
+
+on:
+  push:
+    branches: master
+  pull_request:
+    branches: master
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [24.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    steps:
+      #checking out the repo
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+          #setting up node.js
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - name: Installing dependencies
+        run: npm ci
+
+        # Build the project
+      - name: Build
+        run: npm run build --if-present
+
+        # Run Snyk to check for vulnerabilities
+      - name: Run Snyk
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: test
+          args: --severity-threshold=high --sarif-file-output=snyk.sarif
+        continue-on-error: true # Allow workflow to continue even if vulnerabilities are found
+
+      - name: Upload SARIF to GitHub
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: snyk.sarif
+
+      - name: Snyk Monitor
+        uses: snyk/actions/node@master
+        with:
+          command: monitor
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+        # Run SonarQube scan
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v6
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        with:
+          args: >
+            -Dsonar.projectKey=classtest2          
+            -Dsonar.organization=classtest2          
+            -Dsonar.sources=.                       
+            -Dsonar.exclusions=node_modules/**,dist/**            
+            -Dsonar.qualitygate.wait=true
+            -Dsonar.branch.name=master
+        continue-on-error: true
